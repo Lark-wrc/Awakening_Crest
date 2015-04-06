@@ -2,14 +2,14 @@
 class Statlist
 	attr_accessor  :hp, :str, :magic, :skill, :luck, :defense,:res
 		
-		#Initialize stats 
+		#__init__ stats 
 		def initialiaze(hp, str, magic, skill, luck, defense, res)
-			@hp= hp
-			@str = str
-			@magic = magic
-			@skill = skill
-			@luck = luck
-			@defense = defense
-			@res = res
-		end
-end
+			self.hp= hp
+			self.str = str
+			self.magic = magic
+			self.skill = skill
+			self.luck = luck
+			self.defense = defense
+			self.res = res
+		
+

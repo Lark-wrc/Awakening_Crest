@@ -2,21 +2,20 @@
 class Personal
 	attr_accessor :growth,:gains,:max,:name,:internalLv,:culmLv,:wepExp,:classSet,:supportIndex,:skills,:weakness,:movement
 	
-	#Initialize personal properties
-	def initialize(growth,gains,max,name,internalLv,culmLv,wepExp,classSet,supportIndex,skills,weakness,movement)
-		@gowth = growth
-		@gains = gains
-		@max = max
-		@name = name
-		@internalLv = internalLv
-		@culmLv = culmLv
-		@wepExp = wepExp
-		@classSet = classSet
-		@supportIndex = supportIndex
-		@skills = skills
-		@weakness = weakness
-		@movement = movement
+	#__init__ personal properties
+	def __init__(self,growth,gains,max,name,internalLv,culmLv,wepExp,classSet,supportIndex,skills,weakness,movement)
+		self.gowth = growth
+		self.gains = gains
+		self.max = max
+		self.name = name
+		self.internalLv = internalLv
+		self.culmLv = culmLv
+		self.wepExp = wepExp
+		self.classSet = classSet
+		self.supportIndex = supportIndex
+		self.skills = skills
+		self.weakness = weakness
+		self.movement = movement
 		
 		
-	end
-end
+	

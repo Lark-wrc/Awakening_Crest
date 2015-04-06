@@ -1,6 +1,6 @@
-require_relative 'Weapon'
-require_relative 'Lance'
-require_relative 'Sword'
+import 'Weapon'
+import 'Lance'
+import 'Sword'
 #This is the interface for axe weapons. This specifies everything those
 #weapons will need.
 #Class written by Bill Clark
@@ -10,33 +10,33 @@ class Axe < Weapon
 	#Creates the properties of a weapon. Used to create any new weapon object.
 	#Type may seem like it is missing, but do remember this is an interface. Type is
 	#Dictated by the class. This allows for new types of weapons to be created.
-	def initialize(rank, mt, hit, crit, range, effective, uses, worth, name, iconID)
+	def __init__(self,rank, mt, hit, crit, range, effective, uses, worth, name, iconID)
 		super(rank, mt, hit, crit, range, effective, uses, worth, name, iconID)
-	end
+	
 	#Instructions to be run when a weapon is set to a unit's equipped slot. 
-	def on_equip(unit)
-	end
+	def on_equip(self, unit)
+	
 	
 	#If this weapon does anything special, such as allow an extra attack or grant
 	#a combat skill to it's user, this method will apply it to the stack provided.
-	def combat_action(stack)
-	end
+	def combat_action(self, stack)
+	
 	
 	#The inverse of on_equip.
-	def off_equip(unit)
-	end
+	def off_equip(self, unit)
+	
 	
 	#Returns true or false if a unit can equip this weapon. Will check itself against the
 	#provided unit's class's equippible list. 
-	def equippible?(unit)
-	end
+	def equippible(self, unit)
+	
 	
 	#Returns the stat (magic or strength) to be used in the combat calculator when attacking
 	#with this weapon. Allows for modularity and follows the logic of a sword knowing it's a sword.
-	def relevantstat?()
-	end
+	def relevantstat(self)
 	
-	def triangle?(weapon)
+	
+	def triangle(self, weapon)
 		#ret = 0
 		#weapon.is_a?(Axe) ? ret = 1 : ret = 0
 		#weapon.is_a?(Lance) ? ret = -1 : ret = 0
@@ -46,6 +46,5 @@ class Axe < Weapon
 			return 1
 		else
 			return 0
-		end
-	end
-end
+		
+	

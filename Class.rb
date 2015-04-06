@@ -2,16 +2,15 @@
 class Class
 	attr_accessor :maxClassStat,:currentLv,:exp,:promote,:lvCap,:promoteLv,:promotions,:name,:profics
 	
-	#Initialize class properties
-	def initialize(maxClassStat,currentLv,exp,promote,lvCap,promoteLv, promotions, name, profics)
-		@maxClassStat = maxClassStat
-		@currentLv = currentLv
-		@exp = exp
-		@promote = promote
-		@lvCap = lvCap
-		@promoteLv = promoteLv
-		@promotions = promotions
-		@name = name
-		@profics = profics
-	end
-end
+	#__init__ class properties
+	def __init__(self,maxClassStat,currentLv,exp,promote,lvCap,promoteLv, promotions, name, profics)
+		self.maxClassStat = maxClassStat
+		self.currentLv = currentLv
+		self.exp = exp
+		self.promote = promote
+		self.lvCap = lvCap
+		self.promoteLv = promoteLv
+		self.promotions = promotions
+		self.name = name
+		self.profics = profics
+	
