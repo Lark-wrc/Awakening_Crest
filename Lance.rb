@@ -9,7 +9,7 @@ class Lance(Weapon)
 	#Creates the properties of a weapon. Used to create any new weapon object.
 	#Type may seem like it is missing, but do remember this is an interface. Type is
 	#Dictated by the class. This allows for new types of weapons to be created.
-	def __init__(self,rank, mt, hit, crit, range, effective, uses, worth, name, iconID)
+	def __init__(self, rank, mt, hit, crit, range, effective, uses, worth, name, iconID)
 		super(rank, mt, hit, crit, range, effective, uses, worth, name, iconID)
 	
 	#Instructions to be run when a weapon is set to a unit's equipped slot. 
@@ -36,12 +36,9 @@ class Lance(Weapon)
 	
 	
 	def triangle(self, weapon)
-		#ret = 0
-		#weapon.is_a?(Axe) ? ret = 1 : ret = 0
-		#weapon.is_a?(Lance) ? ret = -1 : ret = 0
-		if weapon.is_a?(Axe)
-			return-1
-		elsif weapon.is_a?(Sword)
+		if isinstance(weapon, Axe)
+			return -1
+		elif isinstance(weapon, Sword)
 			return 1
 		else
 			return 0

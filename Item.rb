@@ -1,7 +1,6 @@
 #A Interface for all items in the game. Every item inherits from here.\
 #Class Written by Bill Clark
 class Item 
-	attr_accessor :name,:uses,:worth,:iconID,:owner
 	
 	#__init__s properities of an item. 
 	def __init__(self,uses, worth, name, iconID)

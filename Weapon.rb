@@ -2,13 +2,12 @@ import 'Item'
 #This is a interface for all weapons. It contains the methods every weapon
 #will need. It is a subclass of Item.
 #Class written by Bill Clark
-class Weapon < Item
-	attr_accessor :name,:uses,:worth,:iconID,:owner,:rank,:mt,:hit,:crit,:range,:effective
+class Weapon(Item)
 	
 	#Creates the properties of a weapon. Used to create any new weapon object.
 	#Type may seem like it is missing, but do remember this is an interface. Type is
 	#Dictated by the class. This allows for new types of weapons to be created.
-	def __init__(self,rank, mt, hit, crit, range, effective, uses, worth, name, iconID)
+	def __init__(self, rank, mt, hit, crit, range, effective, uses, worth, name, iconID)
 		super(uses, worth, name, iconID)
 		self.rank = rank
 		self.mt = mt

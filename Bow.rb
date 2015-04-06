@@ -1,8 +1,7 @@
 import 'Weapon'
 #This is the interface for bow weapons. This specifies everything those
 #weapons will need.#Class written by Bill Clark
-class Bow < Weapon
-	attr_accessor :name,:uses,:worth,:iconID,:owner,:rank,:mt,:hit,:crit,:range,:effective
+class Bow(Weapon)
 	
 	#Creates the properties of a weapon. Used to create any new weapon object.
 	#Type may seem like it is missing, but do remember this is an interface. Type is
