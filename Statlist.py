@@ -3,7 +3,7 @@
 class Statlist
 		
 		#__init__ stats 
-		def initialiaze(hp, str, magic, skill, luck, defense, res)
+		def initialiaze(hp, str, magic, skill, luck, defense, res):
 			self.hp= hp
 			self.str = str
 			self.magic = magic

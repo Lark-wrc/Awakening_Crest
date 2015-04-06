@@ -3,7 +3,7 @@
 class WeaponList(object)	
 	
 	#__init__ WeaponList properties
-	def __init__(self,sword, lance, axe, bow, anima, dark, light, staff)
+	def __init__(self,sword, lance, axe, bow, anima, dark, light, staff):
 		
 		self.sword = sword
 		self.lance = lance

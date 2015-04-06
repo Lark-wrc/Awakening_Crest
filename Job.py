@@ -1,5 +1,5 @@
-#An interface for all class(job) types that a unit can have
-class Class
+#An interface for all job types that a unit can have
+class Job
 	attr_accessor :maxClassStat,:currentLv,:exp,:promote,:lvCap,:promoteLv,:promotions,:name,:profics
 	
 	#__init__ class properties
