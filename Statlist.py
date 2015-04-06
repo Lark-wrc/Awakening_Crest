@@ -1,6 +1,6 @@
 #Class that holds stats for a unit in specified format
+#Written by Greg Suner
 class Statlist
-	attr_accessor  :hp, :str, :magic, :skill, :luck, :defense,:res
 		
 		#__init__ stats 
 		def initialiaze(hp, str, magic, skill, luck, defense, res)

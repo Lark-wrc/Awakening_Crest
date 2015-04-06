@@ -1,6 +1,6 @@
 #Class that holds proficiencies for each weapon as ints
+#Written by Greg Suner
 class WeaponList(object)	
-	attr_accessor :sword,:lance,:axe,:bow,:anima,:dark,:light,:staff
 	
 	#__init__ WeaponList properties
 	def __init__(self,sword, lance, axe, bow, anima, dark, light, staff)

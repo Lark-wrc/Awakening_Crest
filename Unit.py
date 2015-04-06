@@ -1,7 +1,7 @@
 #An interface for each unit that is placed within the game
+#Written by Greg Suner
 class Unit
 
-	attr_accessor :personal,:job,:tempStats,:inventory,:currentHp,:activeSkills
 	
 	#__init__ unit properties
 	def __init__(self,personal,job,tempStats,inventory,currentHp,skills)
