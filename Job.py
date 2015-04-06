@@ -1,6 +1,6 @@
 #An interface for all job types that a unit can have
+#Written by Greg Suner
 class Job
-	attr_accessor :maxClassStat,:currentLv,:exp,:promote,:lvCap,:promoteLv,:promotions,:name,:profics
 	
 	#__init__ class properties
 	def __init__(self,maxClassStat,currentLv,exp,promote,lvCap,promoteLv, promotions, name, profics)

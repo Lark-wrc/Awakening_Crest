@@ -14,12 +14,12 @@ class Unit
 		
 	
 	#Returns units statlist
-	def ask_stats():
+	def ask_stats(self):
 		pass
 	
 	#Takes int to select which specific stat to return
 	#Returns specified stat
-	def ask_stat?(statId):
+	def ask_stat?(self, statId):
 		pass
 	
 	#Takes a weapon as a parameter to check if this unit can equip it
@@ -28,11 +28,11 @@ class Unit
 		pass
 	
 	#Sets weapon to indicated slotNum within unit inventory
-	def equip(item, slotNum):
+	def equip(self, item, slotNum):
 		pass
 	
 	#Asks if a unit can have a certain skill
-	def ask_equip_skills():
+	def ask_equip_skills(self):
 		pass
 	
 	
