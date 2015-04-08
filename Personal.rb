@@ -1,9 +1,9 @@
 #An interface for the personal attributes for each unit
 class Personal
-	attr_accessor :growth,:gains,:max,:name,:internalLv,:culmLv,:wepExp,:classSet,:supportIndex,:skills,:weakness,:movement
+	attr_accessor ):growth,):gains,):max,):name,):internalLv,):culmLv,):wepExp,):classSet,):supportIndex,):skills,):weakness,):movement
 	
 	#__init__ personal properties
-	def __init__(self,growth,gains,max,name,internalLv,culmLv,wepExp,classSet,supportIndex,skills,weakness,movement)
+	def __init__(self,growth,gains,max,name,internalLv,culmLv,wepExp,classSet,supportIndex,skills,weakness,movement):
 		self.gowth = growth
 		self.gains = gains
 		self.max = max

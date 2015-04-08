@@ -1,4 +1,4 @@
-class Terrain(object)
+class Terrain(object):
 	
 	def __init__(self, defen, hit, cost, heal, iconID)
 		self.defen = defen

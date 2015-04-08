@@ -1,9 +1,9 @@
-#An interface for all class(job) types that a unit can have
+#An interface for all class(job): types that a unit can have
 class Class
-	attr_accessor :maxClassStat,:currentLv,:exp,:promote,:lvCap,:promoteLv,:promotions,:name,:profics
+	attr_accessor ):maxClassStat,):currentLv,):exp,):promote,):lvCap,):promoteLv,):promotions,):name,):profics
 	
 	#__init__ class properties
-	def __init__(self,maxClassStat,currentLv,exp,promote,lvCap,promoteLv, promotions, name, profics)
+	def __init__(self,maxClassStat,currentLv,exp,promote,lvCap,promoteLv, promotions, name, profics):
 		self.maxClassStat = maxClassStat
 		self.currentLv = currentLv
 		self.exp = exp
