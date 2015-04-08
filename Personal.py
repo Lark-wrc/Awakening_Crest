@@ -1,6 +1,6 @@
 #An interface for the personal attributes for each unit
 #Written by Greg Suner
-class Personal
+class Personal(object):
 
 	#__init__ personal properties
 	def __init__(self,growth,gains,max,name,internalLv,culmLv,wepExp,classSet,supportIndex,skills,weakness,movement):
