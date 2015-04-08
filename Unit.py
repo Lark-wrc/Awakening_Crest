@@ -17,7 +17,7 @@ class Unit(object):
 	
 	#Takes int to select which specific stat to return
 	#Returns specified stat
-	def ask_stat?(self, statId):
+	def ask_stat(self, statId):
 		pass
 
 	

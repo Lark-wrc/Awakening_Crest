@@ -1,9 +1,10 @@
+from Statlist import Statlist
 #An interface for all job types that a unit can have
 #Written by Greg Suner
-class Job
+class Job:
 	#__init__ class properties
 	def __init__(self,maxClassStat,currentLv,exp,promote,lvCap,promoteLv, promotions, name, profics):
-		self.maxClassStat = maxClassStat
+		self.maxClassStat = Statlist(*maxClassStat)
 		self.currentLv = currentLv
 		self.exp = exp
 		self.promote = promote

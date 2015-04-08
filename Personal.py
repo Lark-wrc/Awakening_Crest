@@ -6,7 +6,7 @@ class Personal(object):
 	def __init__(self,growth,gains,max,name,internalLv,culmLv,wepExp,classSet,supportIndex,skills,weakness,movement):
 		self.gowth = growth
 		self.gains = gains
-		self.max = max
+		self.maxStats = max
 		self.name = name
 		self.internalLv = internalLv
 		self.culmLv = culmLv
