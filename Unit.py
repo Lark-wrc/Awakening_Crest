@@ -1,3 +1,4 @@
+from Statlist import Statlist
 #An interface for each unit that is placed within the game
 #Written by Greg Suner
 class Unit(object):
@@ -5,7 +6,7 @@ class Unit(object):
 	def __init__(self,personal,job,tempStats,inventory,currentHp,skills):
 		self.personal = personal
 		self.job = job
-		self.tempStats = tempStats
+		self.tempStats = Statlist(*tempStats)
 		self.inventory = inventory
 		self.currentHp = currentHp
 		self.skills = skills
