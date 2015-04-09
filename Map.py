@@ -20,15 +20,25 @@ class Map(Object):
 		self.events = resolveEvents(file_data)
 		
 	#possibly via A*
+	#calculated the cost of travelling from the ordered pair to start to the same end. 
+	#This takes into account the cost of each square in the grid. The cost might be stored differently,
+	#so don't start quite yet. 
 	def distance(self, start, end):
 		pass
 	
-	def in_prox(self, type, range):
+	#Find out if something (type) is accessible from where it is. This includes range, so it's always
+	#one larger than reachable. possible refactoring to show that. Basically, this is for is X in my attack
+	#range?
+	def in_prox(self, source, type, range):
 		pass
-	def proximity(self, type, range):
+	#returns something related to things that this unit is in proximity too. Remember, proximity doesn't mean
+	#you can reach that square, it means that you can get within range of it, with specified range.
+	def proximity(self, source, type, range):
 		pass
-	def reachable(self, start, end):
+	#returns something. Probably a list of all squares a source can reach. maybe.
+	def reachable(self, source, end):
 		pass
+	#can thing in source move to ordered pair end in one move?
 	def is_reachable(self, start, end):
 		pass
 	
