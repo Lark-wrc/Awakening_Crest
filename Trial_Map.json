@@ -1,21 +1,34 @@
 {
-	"Armies" : [
-		[]
-	],
-	
-	"Starting_Pos" : [
-		[[1,3]],
-		[[4,1], [5,4]]
-	],
-	
-	"Unit Counts" : [
-		1,
-		2
-	],
-	
-	"Events" : {
-		"Turn" : ["",""]
-	}
-	
-	"Pre_Battle" : false
+    "Armies": [
+        "second_army.pckl"
+    ],
+    "Starting_Pos": [
+        [
+            [
+                3,
+                1
+            ]
+        ],
+        [
+            [
+                1,
+                4
+            ],
+            [
+                4,
+                5
+            ]
+        ]
+    ],
+    "Unit_Counts": [
+        1,
+        2
+    ],
+    "Events": {
+        "Turn": [
+            "",
+            ""
+        ]
+    },
+    "Pre_Battle": false
 }

@@ -122,8 +122,8 @@ class Sword(Weapon):
 	
 	#Returns true or false if a unit can equip this weapon. Will check itself against the
 	#provided unit's class's equippible list. 
-	def equippible(self, unit):
-		pass
+	def equippible(self):
+		return 'Sword'
 	
 	#Returns the stat (magic or strength): to be used in the combat calculator when attacking
 	#with this weapon. Allows for modularity and follows the logic of a sword knowing it's a sword.

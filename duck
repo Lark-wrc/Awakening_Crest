@@ -1,0 +1,23 @@
+<NotepadPlus>
+    <Session activeView="0">
+        <mainView activeIndex="15">
+            <File firstVisibleLine="0" xOffset="0" scrollWidth="924" startPos="184" endPos="184" selMode="0" lang="Python" encoding="-1" filename="C:\Users\William\Documents\GitHub\Awakening_Crest\Terrain.py" backupFilePath="" originalFileLastModifTimestamp="1428525045" />
+            <File firstVisibleLine="58" xOffset="0" scrollWidth="1386" startPos="3888" endPos="3888" selMode="0" lang="Python" encoding="-1" filename="C:\Users\William\Documents\GitHub\Awakening_Crest\IF_ItemsEquipment.py" backupFilePath="" originalFileLastModifTimestamp="1428518327" />
+            <File firstVisibleLine="0" xOffset="0" scrollWidth="1022" startPos="29" endPos="29" selMode="0" lang="Python" encoding="-1" filename="C:\Users\William\Documents\GitHub\Awakening_Crest\Unit.py" backupFilePath="" originalFileLastModifTimestamp="1428530336" />
+            <File firstVisibleLine="0" xOffset="0" scrollWidth="1414" startPos="492" endPos="492" selMode="0" lang="Python" encoding="-1" filename="C:\Users\William\Documents\GitHub\Awakening_Crest\Job.py" backupFilePath="" originalFileLastModifTimestamp="1428518210" />
+            <File firstVisibleLine="0" xOffset="0" scrollWidth="1638" startPos="202" endPos="236" selMode="0" lang="Python" encoding="-1" filename="C:\Users\William\Documents\GitHub\Awakening_Crest\Personal.py" backupFilePath="" originalFileLastModifTimestamp="1428529644" />
+            <File firstVisibleLine="0" xOffset="0" scrollWidth="1022" startPos="144" endPos="144" selMode="0" lang="Python" encoding="-1" filename="C:\Users\William\Documents\GitHub\Awakening_Crest\Statlist.py" backupFilePath="" originalFileLastModifTimestamp="1428518947" />
+            <File firstVisibleLine="0" xOffset="0" scrollWidth="1428" startPos="197" endPos="197" selMode="0" lang="Javascript" encoding="-1" filename="C:\Users\William\Documents\GitHub\Awakening_Crest\Characters.json" backupFilePath="" originalFileLastModifTimestamp="1428519634" />
+            <File firstVisibleLine="0" xOffset="0" scrollWidth="966" startPos="111" endPos="111" selMode="0" lang="Javascript" encoding="-1" filename="C:\Users\William\Documents\GitHub\Awakening_Crest\Weapons.json" backupFilePath="" originalFileLastModifTimestamp="1428516877" />
+            <File firstVisibleLine="0" xOffset="0" scrollWidth="338" startPos="120" endPos="120" selMode="0" lang="Javascript" encoding="-1" filename="C:\Users\William\Documents\GitHub\Awakening_Crest\Trial_Map.json" backupFilePath="" originalFileLastModifTimestamp="1428524030" />
+            <File firstVisibleLine="0" xOffset="0" scrollWidth="532" startPos="78" endPos="78" selMode="0" lang="Javascript" encoding="-1" filename="C:\Users\William\Documents\GitHub\Awakening_Crest\Trial_Map_Map.json" backupFilePath="" originalFileLastModifTimestamp="1428531984" />
+            <File firstVisibleLine="0" xOffset="0" scrollWidth="602" startPos="214" endPos="214" selMode="0" lang="Javascript" encoding="-1" filename="C:\Users\William\Documents\GitHub\Awakening_Crest\Terrain_Types.json" backupFilePath="" originalFileLastModifTimestamp="1428525517" />
+            <File firstVisibleLine="0" xOffset="0" scrollWidth="336" startPos="359" endPos="359" selMode="0" lang="Javascript" encoding="-1" filename="C:\Users\William\Documents\GitHub\Awakening_Crest\Jobs.json" backupFilePath="" originalFileLastModifTimestamp="1428517714" />
+            <File firstVisibleLine="0" xOffset="0" scrollWidth="1036" startPos="392" endPos="392" selMode="0" lang="Python" encoding="-1" filename="C:\Users\William\Documents\GitHub\Awakening_Crest\Weaponlist.py" backupFilePath="" originalFileLastModifTimestamp="1428529555" />
+            <File firstVisibleLine="0" xOffset="0" scrollWidth="812" startPos="310" endPos="310" selMode="0" lang="Python" encoding="-1" filename="C:\Users\William\Documents\GitHub\Awakening_Crest\Inventory.py" backupFilePath="" originalFileLastModifTimestamp="1428537555" />
+            <File firstVisibleLine="10" xOffset="0" scrollWidth="1526" startPos="1722" endPos="1722" selMode="0" lang="Python" encoding="-1" filename="C:\Users\William\Documents\GitHub\Awakening_Crest\Map.py" backupFilePath="" originalFileLastModifTimestamp="1428548487" />
+            <File firstVisibleLine="0" xOffset="0" scrollWidth="714" startPos="185" endPos="185" selMode="0" lang="Python" encoding="-1" filename="C:\Users\William\Documents\GitHub\Awakening_Crest\Army.py" backupFilePath="" originalFileLastModifTimestamp="1428536398" />
+        </mainView>
+        <subView activeIndex="0" />
+    </Session>
+</NotepadPlus>

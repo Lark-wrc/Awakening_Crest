@@ -4,8 +4,8 @@
 		"f" : "Forest"
 	},
 	
-	"Y-Dim" : 5,
-	"X-Dim" : 5,
+	"Y_Dim" : 5,
+	"X_Dim" : 5,
 	
 	"Map" : [
 		["p", "p", "p", "p", "p"],

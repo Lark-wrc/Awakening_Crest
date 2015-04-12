@@ -15,4 +15,4 @@ from IF_ItemsEquipment import Sword
 x = json.load(open('Weapons.json','r'))
 Chrom.inventory.put(Sword(*x["Bronze Sword"]))
 save = Army([Chrom], 'Natsume', Inventory(-1))
-pickle.dump(save, open('first_army.pckl','w'))
+pickle.dump(save, open('second_army.pckl','w'))
