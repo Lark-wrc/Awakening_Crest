@@ -48,7 +48,7 @@ class Map(object):
 				h=x-unitRange
 			else:
 				h=unitRange-x
-			for y in range (-h,h):
+			for y in range(-h,h):
 				if(location[0]+x+1) < xDim and (location[1]+y+1) < yDim:
 					squares.append([location[0]+x+1,location[1]+y+1])
 		
