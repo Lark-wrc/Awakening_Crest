@@ -1,5 +1,6 @@
 import json
 import pickle
+from Queue import PriorityQueue
 from Terrain import Terrain
 class Map(object):
 	def __init__(self, file_map, file_data, file_player):
@@ -40,8 +41,33 @@ class Map(object):
 	#Returns list of squares in range of source
 	def reachable(self, source,location, end):
 		unitRange = source.ask_stat('mov')
+		xDim = location[0]
+		yDim = location[1]
 		squares = []
-		
+
+		"""Bill's diamond generation method.
+		def squares(xdim, ydim, mov):
+			up = True
+			ys = -1 #y adjustment from the baseline x row.
+			for x in range(-mov,mov+1): #added one to include center space
+				if ys < mov and up:
+					ys+=1
+				elif ys == mov:
+					ys-=1
+					up = False
+				elif ys > 0 and not up:
+					ys-=1
+				elif ys <= 0:
+					ys+=1
+					up = True
+				else:
+					print 'derp'
+				#print ys, "ys"
+				for y in range(1,ys+1): #eliminates zeros
+					print xdim+x, y+ydim
+					print xdim+x, -y+ydim
+				print xdim+x, ydim"""
+
 		#add squares in diamond range
 		for x in range(-unitRange, unitRange):
 			if x<=unitRange:
@@ -55,7 +81,7 @@ class Map(object):
 		inRange = []
 		#use A* to check with movement costs of terrain
 		for target in squares:
-			path, cost = get_best_path(source, location, target)
+			path, cost = self.get_best_path(source, location, target)
 			if cost<=unitRange:
 				inRange.append(target)
 		return inRange
@@ -63,7 +89,7 @@ class Map(object):
 		
 	#can thing in source move to ordered pair end in one move
 	def is_reachable(self, source, start, end):
-		path, range = get_best_path(source, start, end)
+		path, range = self.get_best_path(source, start, end)
 		if range <= source.getMovement():
 			return 1
 		else:
@@ -104,6 +130,7 @@ class Map(object):
 	
 	#return 
 	def neighbors(self, current):
+		adj = []
 		if current[0]+1<xDim:
 			adj.append([current[0]+1,current[1]])
 		if current[0]-1<xDim:
@@ -119,7 +146,7 @@ class Map(object):
 	def cost(self, next):
 		x = next[0]
 		y = next[1]
-		return grid[x][y].cost
+		return self.grid[x][y].cost
 
 	
 	#Parses the grid. Using the legend provided, it checks the map symbols against the terrain type

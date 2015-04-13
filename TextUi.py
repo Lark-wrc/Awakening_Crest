@@ -155,7 +155,7 @@ def attackAction(map, cursor, unit):
 		cat = a[0]
 		a[0] = int(a[1])-1
 		a[1] = int(cat)-1
-		if a in proximity(unit, a, '', currRange):
+		if a in map.proximity(unit, a, '', range):
 			if map.units[a[0]][a[1]] != None and map.units[a[0]][a[1]] not in map.playerArmy:
 				forecast = CombatCalc.calc(unit, map.units[a[0]][a[1]], map.grid[cursor[0]][cursor[1]])
 				print forecast.readout()
@@ -175,14 +175,14 @@ def inventoryAction(unit):
 	while a != 'back':
 		os.system('cls' if os.name == 'nt' else 'clear')
 		number = unit.inventory.size
-		indicator = [i for i in range(1,size)]
+		indicator = [i for i in range(1,number)]
 		for x in range(0,number):
 			print '{0:12d} {1:12d}'.format(indicator[x]+'.',unit.inventory[x])
 		a = raw_input("What would you like to do?: ")
 		if a == 'equip':
 			b = raw_input("What Item?: ")
 			while b != 'back':
-				if int(b) <= size:
+				if int(b) <= number:
 					if unit.ask_equippible(unit.inventory[int(b)]):
 						unit.equip(unit.inventory[int(b)])
 						duck = raw_input("Equipped.")
