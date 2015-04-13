@@ -99,7 +99,11 @@ def moveAction(map):
 							#This returns 1 if back is sent from the action menus. Which will continue this
 							#loop. If 0 is sent, it's actually reccuring up the stack with the end turn command.
 							if actionAction(map,cursor, map.units[c[0]][c[1]]):
-								c = raw_input("Where should it move?: ")
+								map.units[b[0]][b[1]] = map.units[c[0]][c[1]]
+								map.units[c[0]][c[1]] = None
+								cursor = (b[0],b[1])
+								os.system('cls' if os.name == 'nt' else 'clear')
+								printMap()
 							else:
 								return 1
 						else:
@@ -112,6 +116,8 @@ def moveAction(map):
 	else:
 		print "No nonsense, please."
 	a = raw_input("Type an action, ? for help: ")
+
+
 """ This is the action selection chain of processing. There are more options in this area than the movement.
 if a unit that isn't friendly is nearby, attack is enabled. else, you may only call up the inventory or wait.
 in additon, as this is a shit ui, you can see a unit's status printout from a command here.
@@ -129,7 +135,7 @@ def actionAction(map,cursor, unit):
 	while a is not 'wait':
 		if a == '?':
 			print "select an action."
-			print "you can: attack: " + can_attack + ' inventory: ' + can_invent + " Status: True wait: True."
+			print "you can: attack: " + repr(can_attack) + ' inventory: ' + repr(can_invent) + " Status: True wait: True."
 		elif a == 'attack':
 			if attackAction(map, cursor, unit):
 				break
@@ -176,22 +182,25 @@ def inventoryAction(unit):
 	while a != 'back':
 		os.system('cls' if os.name == 'nt' else 'clear')
 		number = unit.inventory.size
-		indicator = [i for i in range(1,number)]
+		indicator = [i for i in range(1,number+1)]
 		for x in range(0,number):
-			print '{0:12d} {1:12d}'.format(indicator[x]+'.',unit.inventory[x])
+			print '{0:3d}. {1}'.format(indicator[x], unit.inventory.container[x])
 		a = raw_input("What would you like to do?: ")
 		if a == 'equip':
 			b = raw_input("What Item?: ")
 			while b != 'back':
 				if int(b) <= number:
-					if unit.ask_equippible(unit.inventory[int(b)]):
-						unit.equip(unit.inventory[int(b)])
+					if unit.ask_equippible(unit.inventory[int(b)-1]):
+						unit.equip(unit.inventory[int(b)-1])
 						duck = raw_input("Equipped.")
 						break
+					else:
+						duck = raw_input("Unequippible.")
 				else:
-					duck = raw_input("Unequippible.")
-			else:
-				print "funny."
+					print "funny."
+				b = raw_input("What Item?: ")
+		elif a == 'back':
+			pass
 		else:
 			print "Invalid."
 

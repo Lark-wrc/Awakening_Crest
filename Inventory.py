@@ -9,10 +9,11 @@ class Inventory(object):
 	def trade(self, invent):
 		pass
 	def put(self, obj):
-		if len(self.container) == self.size:
+		if None not in self.container and len(self.container) == self.size:
 			return False
 		else:
-			for i in range(0,size):
+			for i in range(0,self.size):
 				if self.container[i] is None:
 					self.container[i] = obj
+					break
 		

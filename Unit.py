@@ -1,4 +1,5 @@
 from Statlist import Statlist
+from pprint import pprint
 #An interface for each unit that is placed within the game
 #Written by Greg Suner
 class Unit(object):
@@ -48,16 +49,16 @@ class Unit(object):
 	#Takes a weapon as a parameter to check if this unit can equip it
 	#Returns a boolean
 	def ask_equippible(self, weapon):
-		if weapon.equippible() in job.profics:
+		if weapon.equippible() in self.job.profics:
 			return 1
 		else:
 			return 0
 	
 	#Sets weapon to indicated slotNum within unit inventory
 	def equip(self, slot):
-		if ask_equippible(inventory.container(slot)):
-			self.equipped = inventory.container(slot)
-			self.equipped.on_equip(unit)
+		if self.ask_equippible(self.inventory.container[slot]):
+			self.equipped = self.inventory.container[slot]
+			self.equipped.on_equip(self)
 			
 	
 	#Asks if a unit can have a certain skill
@@ -68,8 +69,10 @@ class Unit(object):
 		self.tempStats =  Statlist(*[0,0,0,0,0,0,0,0])
 	
 	def printout(self):
-		pass
-	
+		pprint (vars(self))
+		pprint (vars(self.personal))
+		pprint (vars(self.job))
+
 	def properties(self):
 		#attack
 		ret = []
@@ -78,7 +81,7 @@ class Unit(object):
 			ret[0] = self.job.maxClassStat.str+self.personal.maxStats.str
 		else: 
 			ret[0] = self.personal.gains.str
-		ret[0] += equipped.mt#+rank bonus
+		ret[0] += self.equipped.mt#+rank bonus
 		
 		ret.append(0)
 		if self.personal.gains.skill > self.job.maxClassStat.skill+self.personal.maxStats.skill:
@@ -89,10 +92,10 @@ class Unit(object):
 			luck = self.job.maxClassStat.luck+self.personal.maxStats.luck
 		else: 
 			luck = self.personal.gains.luck
-		ret[1] = equipped.hit + (skill*3+luck)/2#+rank bonus
+		ret[1] = self.equipped.hit + (skill*3+luck)/2#+rank bonus
 		
 		ret.append(0)
-		ret[2] = equipped.crit + skill/2
+		ret[2] = self.equipped.crit + skill/2
 		
 		ret.append(0)
 		if self.personal.gains.speed > self.job.maxClassStat.speed+self.personal.maxStats.speed:
