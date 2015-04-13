@@ -76,7 +76,7 @@ def moveAction(map):
 				#BUNCHA checkin for target validity. specifically, if it's on the map, if it's a unit, under
 				#your control, and hasn't already moved.
 				if b[0] < map.xDim and b[1] < map.yDim and map.units[b[0]][b[1]] is not None and \
-								map.units[b[0]][b[1]] in map.playerArmy.units and not map.units[b[0]][b[1]].grey:
+				map.units[b[0]][b[1]] in map.playerArmy.units and not map.units[b[0]][b[1]].grey:
 					cursor = (b[0],b[1])
 					c = raw_input("Where should it move?: ")
 					#Lowest while, gets movement target.
@@ -89,11 +89,12 @@ def moveAction(map):
 
 						#target validity checking...
 						if c[0] < map.xDim and c[1] < map.yDim and map.units[c[0]][c[1]] is None \
-								and map.reachable(map.units[b[0]][b[1]], cursor, (c[0], c[1])):
+						and map.is_reachable(map.units[b[0]][b[1]], cursor, (c[0], c[1])):
 							cursor = (c[0],c[1])
 							map.units[c[0]][c[1]] = map.units[b[0]][b[1]]
 							map.units[b[0]][b[1]] = None
 							os.system('cls' if os.name == 'nt' else 'clear')
+							printMap()
 
 							#This returns 1 if back is sent from the action menus. Which will continue this
 							#loop. If 0 is sent, it's actually reccuring up the stack with the end turn command.

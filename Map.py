@@ -38,46 +38,41 @@ class Map(object):
 	#list of things it can get in range of ie. distance + range
 	def proximity(self, source,location, type, range):
 		pass
+
+	#Bill's diamond generation method.
+	def squares(self, xdim, ydim, mov):
+		ret = []
+		up = True
+		ys = -1 #y adjustment from the baseline x row.
+		for x in range(-mov,mov+1): #added one to include center space
+			if ys < mov and up:
+				ys+=1
+			elif ys == mov:
+				ys-=1
+				up = False
+			elif ys > 0 and not up:
+				ys-=1
+			elif ys <= 0:
+				ys+=1
+				up = True
+			else:
+				print 'derp'
+			#print ys, "ys"
+			for y in range(1,ys+1): #eliminates zeros
+				if xdim+x >= 0 and xdim+x < self.xDim and y+ydim < self.yDim and y+ydim >= 0:
+					ret.append((xdim+x, y+ydim))
+				if xdim+x >= 0 and xdim+x < self.xDim and -y+ydim < self.yDim and -y+ydim >= 0:
+					ret.append((xdim+x, -y+ydim))
+			if xdim+x >= 0 and xdim+x < self.xDim and ydim < self.yDim and ydim >= 0:
+				ret.append((xdim+x, ydim))
+		return ret
+
 	#Returns list of squares in range of source
 	def reachable(self, source,location, end):
 		unitRange = source.ask_stat('mov')
 		xDim = location[0]
 		yDim = location[1]
-		squares = []
-
-		"""Bill's diamond generation method.
-		def squares(xdim, ydim, mov):
-			up = True
-			ys = -1 #y adjustment from the baseline x row.
-			for x in range(-mov,mov+1): #added one to include center space
-				if ys < mov and up:
-					ys+=1
-				elif ys == mov:
-					ys-=1
-					up = False
-				elif ys > 0 and not up:
-					ys-=1
-				elif ys <= 0:
-					ys+=1
-					up = True
-				else:
-					print 'derp'
-				#print ys, "ys"
-				for y in range(1,ys+1): #eliminates zeros
-					print xdim+x, y+ydim
-					print xdim+x, -y+ydim
-				print xdim+x, ydim"""
-
-		#add squares in diamond range
-		for x in range(-unitRange, unitRange):
-			if x<=unitRange:
-				h=x-unitRange
-			else:
-				h=unitRange-x
-			for y in range(-h,h):
-				if(location[0]+x+1) < xDim and (location[1]+y+1) < yDim:
-					squares.append([location[0]+x+1,location[1]+y+1])
-		
+		squares = self.squares(xDim,yDim,unitRange)
 		inRange = []
 		#use A* to check with movement costs of terrain
 		for target in squares:
@@ -90,7 +85,7 @@ class Map(object):
 	#can thing in source move to ordered pair end in one move
 	def is_reachable(self, source, start, end):
 		path, range = self.get_best_path(source, start, end)
-		if range <= source.getMovement():
+		if range[end] <= source.ask_stat('mov'):
 			return 1
 		else:
 			return 0
@@ -100,11 +95,11 @@ class Map(object):
 	
 	def get_best_path(self, source, current, goal):
 		frontier = PriorityQueue()
-		frontier.put(start, 0)
+		frontier.put(current, 0)
 		came_from = {}
 		cost_so_far = {}
-		came_from[start] = None
-		cost_so_far[start] = 0
+		came_from[current] = None
+		cost_so_far[current] = 0
 
 		while not frontier.empty():
 			current = frontier.get()
@@ -113,34 +108,20 @@ class Map(object):
 				#return the path
 				break
 		   
-			for next in graph.neighbors(current):
-				new_cost = cost_so_far[current] + graph.cost(next)
+			for next in self.squares(current[0],current[1],1):
+				new_cost = cost_so_far[current] + self.grid[next[0]][next[1]].cost
 				if next not in cost_so_far or new_cost < cost_so_far[next]:
 					cost_so_far[next] = new_cost
-					priority = new_cost + heuristic(goal, next)
+					priority = new_cost + self.heuristic(goal, next)
 					frontier.put(next, priority)
 					came_from[next] = current
-		return came_from, cost_so_far			
+		return came_from, cost_so_far
 
 	#manhattan heuristic - total of difference of x and y	
 	def heuristic(self, goal, current):
-		x = abs(goal[0]-next[0])
-		y = abs(goal[1]-next[0])
+		x = abs(goal[0]-current[0])
+		y = abs(goal[1]-current[0])
 		return x+y
-	
-	#return 
-	def neighbors(self, current):
-		adj = []
-		if current[0]+1<xDim:
-			adj.append([current[0]+1,current[1]])
-		if current[0]-1<xDim:
-			adj.append([current[0]-1,current[1]])
-		if current[1]+1<yDim:
-			adj.append([current[0],current[1]+1])
-		if current[1]-1<yDim:
-			adj.append([current[0],current[1]-1])
-		
-		return adj
 		
 	#pull cost from terrain	
 	def cost(self, next):
