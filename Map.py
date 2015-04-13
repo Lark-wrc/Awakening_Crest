@@ -39,24 +39,24 @@ class Map(object):
 		pass
 	#Returns list of squares in range of source
 	def reachable(self, source,location, end):
-		unitRange = source.getMovement()
+		unitRange = source.ask_stat('mov')
 		squares = []
 		
 		#add squares in diamond range
-		for x in range (-unitRange, unitRange)
-			if(x<=unitRange)
+		for x in range(-unitRange, unitRange):
+			if x<=unitRange:
 				h=x-unitRange
-			else
+			else:
 				h=unitRange-x
-			for y in range (-h,h)
-				if((location[0]+x+1)<xDim & (location[1]+y+1])<yDim)
+			for y in range (-h,h):
+				if(location[0]+x+1) < xDim and (location[1]+y+1) < yDim:
 					squares.append([location[0]+x+1,location[1]+y+1])
 		
 		inRange = []
 		#use A* to check with movement costs of terrain
-		for target in squares
+		for target in squares:
 			path, cost = get_best_path(source, location, target)
-			if(cost<=unitRange)
+			if cost<=unitRange:
 				inRange.append(target)
 		return inRange
 		
@@ -64,15 +64,15 @@ class Map(object):
 	#can thing in source move to ordered pair end in one move
 	def is_reachable(self, source, start, end):
 		path, range = get_best_path(source, start, end)
-		if(range <= source.getMovement())
+		if range <= source.getMovement():
 			return 1
-		else
+		else:
 			return 0
 			
 	
 #example from online
 	
-	def get_best_path(self, source, current, goal)
+	def get_best_path(self, source, current, goal):
 		frontier = PriorityQueue()
 		frontier.put(start, 0)
 		came_from = {}
@@ -97,26 +97,26 @@ class Map(object):
 		return came_from, cost_so_far			
 
 	#manhattan heuristic - total of difference of x and y	
-	def heuristic(self, goal, current)
+	def heuristic(self, goal, current):
 		x = abs(goal[0]-next[0])
 		y = abs(goal[1]-next[0])
 		return x+y
 	
 	#return 
-	def neighbors(self, current)
-		if(current[0]+1<xDim)
+	def neighbors(self, current):
+		if current[0]+1<xDim:
 			adj.append([current[0]+1,current[1]])
-		if(current[0]-1<xDim)
+		if current[0]-1<xDim:
 			adj.append([current[0]-1,current[1]])
-		if(current[1]+1<yDim)
+		if current[1]+1<yDim:
 			adj.append([current[0],current[1]+1])
-		if(current[1]-1]<yDim)
+		if current[1]-1<yDim:
 			adj.append([current[0],current[1]-1])
 		
 		return adj
 		
 	#pull cost from terrain	
-	def cost(self, next)
+	def cost(self, next):
 		x = next[0]
 		y = next[1]
 		return grid[x][y].cost

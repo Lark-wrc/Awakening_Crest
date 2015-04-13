@@ -32,11 +32,15 @@ class Unit(object):
 				luck = self.job.maxClassStat.luck+self.personal.maxStats.luck
 			else: 
 				luck = self.personal.gains.luck
+			return luck
 		elif statId == 'spd':
 			if self.personal.gains.speed > self.job.maxClassStat.speed+self.personal.maxStats.speed:
 				speed = self.job.maxClassStat.speed+self.personal.maxStats.speed
 			else: 
 				speed = self.personal.gains.speed
+			return speed
+		elif statId == 'mov':
+			return self.personal.movement
 		else:
 			return None
 
