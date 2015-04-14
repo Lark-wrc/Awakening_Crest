@@ -2,7 +2,7 @@ from Map import Map
 import os
 import sys
 import pprint
-from CombatCalc import *
+import CombatCalc
 
 #The game map. 
 gameMap = None
@@ -129,12 +129,14 @@ fyeah recursion!!!
 def actionAction(map,cursor, unit):
 	can_attack = False
 	can_invent = True
-	if map.in_prox(unit, cursor, 'foe', unit.currRange):
+	if map.in_prox(unit, cursor, 'unit', unit.currRange):
 		can_attack = True
 	a = raw_input("Type an action, ? for help: ")
 	while a is not 'wait':
 		if a == '?':
 			print "select an action."
+			if map.in_prox(unit, cursor, 'unit', unit.currRange):
+				can_attack = True
 			print "you can: attack: " + repr(can_attack) + ' inventory: ' + repr(can_invent) + " Status: True wait: True."
 		elif a == 'attack':
 			if attackAction(map, cursor, unit):
@@ -162,9 +164,9 @@ def attackAction(map, cursor, unit):
 		cat = a[0]
 		a[0] = int(a[1])-1
 		a[1] = int(cat)-1
-		if a in map.proximity(unit, a, '', range):
-			if map.units[a[0]][a[1]] != None and map.units[a[0]][a[1]] not in map.playerArmy:
-				forecast = CombatCalc.calc(unit, map.units[a[0]][a[1]], map.grid[cursor[0]][cursor[1]])
+		if (a[0],a[1]) in map.proximity(unit, a, 'unit', range):
+			if map.units[a[0]][a[1]] != None and map.units[a[0]][a[1]] not in map.playerArmy.units:
+				forecast = CombatCalc.calc(unit, map.units[a[0]][a[1]], map.grid[cursor[0]][cursor[1]], map.grid[a[0]][a[1]])
 				print forecast.readout()
 				b = raw_input("Do you want to attack?: ")
 				while b != 'back':
@@ -173,8 +175,10 @@ def attackAction(map, cursor, unit):
 						return 1
 					else:
 						print 'yes or no. come on genius.'
+					b = raw_input("Do you want to attack?: ")
 		else:
 			print "can't hit it."
+		a = raw_input("Where do you want to attack?: ")
 
 #Displays the inventory. Same while loop structure as movement action. commands consist of back or equip.
 def inventoryAction(unit):
@@ -190,8 +194,8 @@ def inventoryAction(unit):
 			b = raw_input("What Item?: ")
 			while b != 'back':
 				if int(b) <= number:
-					if unit.ask_equippible(unit.inventory[int(b)-1]):
-						unit.equip(unit.inventory[int(b)-1])
+					if unit.ask_equippible(unit.inventory.container[int(b)-1]):
+						unit.equip(int(b)-1)
 						duck = raw_input("Equipped.")
 						break
 					else:

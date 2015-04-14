@@ -59,6 +59,7 @@ class Unit(object):
 		if self.ask_equippible(self.inventory.container[slot]):
 			self.equipped = self.inventory.container[slot]
 			self.equipped.on_equip(self)
+			self.currRange = self.equipped.range
 			
 	
 	#Asks if a unit can have a certain skill
@@ -81,7 +82,7 @@ class Unit(object):
 			ret[0] = self.job.maxClassStat.str+self.personal.maxStats.str
 		else: 
 			ret[0] = self.personal.gains.str
-		ret[0] += self.equipped.mt#+rank bonus
+		ret[0] += self.equipped.mt #+rank bonus
 		
 		ret.append(0)
 		if self.personal.gains.skill > self.job.maxClassStat.skill+self.personal.maxStats.skill:

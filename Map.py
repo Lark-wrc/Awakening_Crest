@@ -1,5 +1,6 @@
 import json
 import pickle
+from Unit import Unit
 from Queue import PriorityQueue
 from Terrain import Terrain
 class Map(object):
@@ -31,13 +32,30 @@ class Map(object):
 	#Find out if something (type) is accessible from where it is. This includes range, so it's always
 	#one larger than reachable. possible refactoring to show that. Basically, this is for is X in my attack
 	#range?
-	def in_prox(self, source,location, type, range):
-		pass
+	def in_prox(self, source, location, type, range):
+		unitRange = range
+		xDim = location[0]
+		yDim = location[1]
+		squares = self.squares(xDim,yDim,unitRange)
+		for target in squares:
+			if type == 'unit' and isinstance(self.units[target[0]][target[1]], Unit) and tuple(location) != target:
+				return True
 	#Remember, proximity doesn't mean
 	#you can reach that square, it means that you can get within range of it, with specified range.
 	#list of things it can get in range of ie. distance + range
-	def proximity(self, source,location, type, range):
-		pass
+	def proximity(self, source, location, type, range):
+		unitRange = range
+		xDim = location[0]
+		yDim = location[1]
+		print location
+		squares = self.squares(xDim,yDim,unitRange)
+		inRange = []
+		#use A* to check with movement costs of terrain
+		for target in squares:
+			if type == 'unit' and isinstance(self.units[target[0]][target[1]], Unit):
+				inRange.append(target)
+		print inRange
+		return inRange
 
 	#Bill's diamond generation method.
 	def squares(self, xdim, ydim, mov):
@@ -65,6 +83,7 @@ class Map(object):
 					ret.append((xdim+x, -y+ydim))
 			if xdim+x >= 0 and xdim+x < self.xDim and ydim < self.yDim and ydim >= 0:
 				ret.append((xdim+x, ydim))
+		print ret
 		return ret
 
 	#Returns list of squares in range of source
@@ -162,7 +181,7 @@ class Map(object):
 		#Same as above, extra loop for each of the non player armies.
 		for x in range(1,len(data_file['Starting_Pos'])):
 			for y in data_file['Starting_Pos'][x]:
-				for z in range(0,self.armyCounts[x-1]):
+				for z in range(0,self.armyCounts[x]):
 					self.units[y[0]-1][y[1]-1] = self.otherArmies[x-1].units[z]
 		
 	def resolveEvents(self, file):
