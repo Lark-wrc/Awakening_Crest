@@ -26,7 +26,7 @@ def printMap():
 			if colu == None:
 				print(" {0:2d} ".format(colg.iconID)),
 			else:
-				print(" {0:2d} ".format(-1)),
+				print(" {0:2d} ".format(colu.personal.iconID)),
 		print("")
 
 #shifts an array one around. 
@@ -42,6 +42,7 @@ def resetTempStats(units):
 #removes grey status from all units in an army. Used to start a new turn.
 def deGray(units):
 	for x in units:
+		#print x.personal.name, x.grey
 		x.grey = False
 
 """ This covers the selection of a unit by a player, selecting it's target location and moving it there.
@@ -105,7 +106,8 @@ def moveAction(map):
 								os.system('cls' if os.name == 'nt' else 'clear')
 								printMap()
 							else:
-								return 1
+								#moveAction(map)
+								return 0
 						else:
 							print "That space is unreachable."
 						c = raw_input("Where should it move?: ")
@@ -113,9 +115,11 @@ def moveAction(map):
 				else:
 					print "That selection is invalid."
 				b = raw_input("Where are you selecting?: ")
-	else:
-		print "No nonsense, please."
-	a = raw_input("Type an action, ? for help: ")
+		else:
+			print "No nonsense, please."
+		printMap()
+		a = raw_input("Type an action, ? for help: ")
+
 
 
 """ This is the action selection chain of processing. There are more options in this area than the movement.
@@ -132,7 +136,7 @@ def actionAction(map,cursor, unit):
 	if map.in_prox(unit, cursor, 'unit', unit.currRange):
 		can_attack = True
 	a = raw_input("Type an action, ? for help: ")
-	while a is not 'wait':
+	while a != 'wait':
 		if a == '?':
 			print "select an action."
 			if map.in_prox(unit, cursor, 'unit', unit.currRange):
@@ -171,7 +175,7 @@ def attackAction(map, cursor, unit):
 				b = raw_input("Do you want to attack?: ")
 				while b != 'back':
 					if b == 'yes':
-						forecast.play(unit, map.units[cursor[0]][cursor[1]])
+						forecast.play(unit, map.units[a[0]][a[1]])
 						return 1
 					else:
 						print 'yes or no. come on genius.'
@@ -222,13 +226,14 @@ def battle_Begin():
 		playerTurn(turnStack[0])
 		turnStack = shift(turnStack)
 		AITurn(turnStack[0])
+		turnStack = shift(turnStack)
 
 #Does the players actions sequentally. Also manages turn based book keeping.
 def playerTurn(army):
 	resetTempStats(army.units)
 	deGray(army.units)
 	moveAction(gameMap)
-
+	print 'done'
 def AITurn(army):
 	pass
 

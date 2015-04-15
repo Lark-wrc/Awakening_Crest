@@ -5,7 +5,7 @@ from Weaponlist import Weaponlist
 class Personal(object):
 
 	#__init__ personal properties
-	def __init__(self,growth,gains,max,name,internalLv,culmLv,wepExp,classSet,supportIndex,skills,weakness,movement):
+	def __init__(self,growth,gains,max,name,internalLv,culmLv,wepExp,classSet,supportIndex,skills,weakness,movement,iconID):
 		self.growth = Statlist(*growth)
 		self.gains = Statlist(*gains)
 		self.maxStats = Statlist(*max)
@@ -18,6 +18,6 @@ class Personal(object):
 		self.skills = skills
 		self.weakness = weakness
 		self.movement = movement
-		
+		self.iconID = iconID
 		
 	

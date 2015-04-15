@@ -58,11 +58,11 @@ class Map(object):
 		return inRange
 
 	#Bill's diamond generation method.
-	def squares(self, xdim, ydim, mov):
+	def squares(self, currX, currY, mov):
 		ret = []
 		up = True
 		ys = -1 #y adjustment from the baseline x row.
-		for x in range(-mov,mov+1): #added one to include center space
+		for col in range(-mov,mov+1): #added one to include center space
 			if ys < mov and up:
 				ys+=1
 			elif ys == mov:
@@ -76,14 +76,14 @@ class Map(object):
 			else:
 				print 'derp'
 			#print ys, "ys"
-			for y in range(1,ys+1): #eliminates zeros
-				if xdim+x >= 0 and xdim+x < self.xDim and y+ydim < self.yDim and y+ydim >= 0:
-					ret.append((xdim+x, y+ydim))
-				if xdim+x >= 0 and xdim+x < self.xDim and -y+ydim < self.yDim and -y+ydim >= 0:
-					ret.append((xdim+x, -y+ydim))
-			if xdim+x >= 0 and xdim+x < self.xDim and ydim < self.yDim and ydim >= 0:
-				ret.append((xdim+x, ydim))
-		print ret
+			for row in range(1,ys+1): #eliminates zeros
+				if currX+col >= 0 and currX+col < self.xDim and row+currY < self.yDim and row+currY >= 0:
+					ret.append((currX+col, row+currY))
+				if currX+col >= 0 and currX+col < self.xDim and -row+currY < self.yDim and -row+currY >= 0:
+					ret.append((currX+col, -row+currY))
+			if currX+col >= 0 and currX+col < self.xDim and currY < self.yDim and currY >= 0:
+				ret.append((currX+col, currY))
+		#print ret
 		return ret
 
 	#Returns list of squares in range of source
@@ -180,9 +180,8 @@ class Map(object):
 				self.units[x[0]-1][x[1]-1] = self.playerArmy.units[y]
 		#Same as above, extra loop for each of the non player armies.
 		for x in range(1,len(data_file['Starting_Pos'])):
-			for y in data_file['Starting_Pos'][x]:
-				for z in range(0,self.armyCounts[x]):
-					self.units[y[0]-1][y[1]-1] = self.otherArmies[x-1].units[z]
+			for i, y in enumerate(data_file['Starting_Pos'][x]):
+				self.units[y[0]-1][y[1]-1] = self.otherArmies[x-1].units[i]
 		
 	def resolveEvents(self, file):
 		return []
