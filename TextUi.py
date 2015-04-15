@@ -234,8 +234,42 @@ def playerTurn(army):
 	deGray(army.units)
 	moveAction(gameMap)
 	print 'done'
+	
+#AI turn
+#Checks all units that are in proximity to AI's unit and scores attacking from different
+#squares that are adjacent to the target
 def AITurn(army):
-	pass
+	#Scoring
+	damageScore = 0
+	defenseScore = 0
+	#Combat calc object
+	Forcast predict = new Forecast()
+	#Holds list of priority queues, 1 for each unit
+	scoredMoves = []
+	
+	#for each of the AI's units
+	#need to edit to take units location from map given a unit
+	for unit in army.units:
+		rankedMoves = PriorityQueue()
+		#for each of the enemy units in proximity to AI unit
+		for enemyUnit in gameMap.proximity(unit, unit location, enemyUnit, unit.personal.range):
+			#for movable adjacent squares next to enemyUnit
+			for attackPos in gameMap.squares(x enemyUnit location, y enemyUnit location, unit.personal.range):
+				situationScore = 0
+				#Score damage dealt and taken based off percentages of health
+				#ie Dealing 100% damage of the enemy health will add 100% of attackScore to 
+				#this situations score and taking 45% damage will add 45% of defenseScore to situationScore
+				
+				
+				
+				#situations for each unit are stored in a priority queue with a score as priority and a list of itself, location, enemy unit
+				#add attack instruction with score as parameter
+				rankedMoves.put(situationScore,[unit, attackPos, enemyUnit])
+				
+	#Pull best move from each units priority queue in scoredMoves
+	for bestMove in scoredMoves:
+		
+				
 
 #Runs everythin. 
 if __name__ == "__main__":
