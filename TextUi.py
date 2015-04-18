@@ -246,46 +246,43 @@ def AITurn(army):
 	#Scoring
 	damageScore = 0
 	defenseScore = 0
-	
-	#Holds list of priority queues, 1 for each unit
-	scoredMoves = []
+
 	unitLocations = []
 	for row in range(len(gameMap.grid)):
 		for column in range(len(row)):
-			if gameMap.units[row][column] is in army.units:
+			if gameMap.units[row][column] in army.units:
 				unitLocations.append([row, column])
 			
 	
 	#for each of the AI's units
 	#need to edit to take units location from map given a unit
-	for unit in unitLocations:
-		
-		
-		unitMoves = PriorityQueue()
-		if gameMap.in_prox(gameMap.units(unit), unit, "unit", gameMap.units(unit).ask_stat(mob))
-		
-		#for each of the enemy units in proximity to AI unit
-		for enemyUnit in gameMap.proximity(unit, t location, enemyUnit, unit.personal.range):
-			#for movable adjacent squares next to enemyUnit
-			for attackPos in gameMap.squares(x enemyUnit location, y enemyUnit location, unit.personal.range):
-				situationScore = 0
-				#Score damage dealt and taken based off percentages of health
-				#ie Dealing 100% damage of the enemy health will add 100% of attackScore to 
-				#this situations score and taking 45% damage will add 45% of defenseScore to situationScore
-				
-				battleForecast = Forecast.calc(unit, enemyUnit, gameMap.grid[][],gameMap.grid[][])
-				
-				#situations for each unit are stored in a priority queue with a score as priority and a tuple of itself, attack location, enemy unit
-				#add attack instruction with score as parameter
-				unitMoves.put(situationScore,[unit, attackPos, enemyUnit])
-		#add priority queue of undividual unit's moves to scoredMoves
-		scoredMoves.append(unitMoves)		
-	
-	#Pull best move from each units priority queue in scoredMoves
-	#Returns unit, attack position, enemey unit
-	for bestMove in scoredMoves:
-		
-				
+	for spot in unitLocations:
+		unit = gameMap.units[spot[0]][spot[1]]
+		choices = {}
+		if gameMap.in_prox(unit, spot, "players", unit.ask_stat('mov')):
+			for foe in gameMap.proximity(unit, spot, 'players', unit.ask_stat('mov')):
+				print foe
+				#to get all attack locations for the foe.
+				for pos in gameMap.squares(foe[0], foe[1], unit.equipped.range):
+					if gameMap.is_reachable(unit,spot,pos):
+						forecast = CombatCalc.calc(unit, gameMap.units[foe[0]][foe[1]], map.grid[pos[0]][pos[1]], \
+							map.grid[foe[0]][foe[1]])
+						x = CombatCalc.score(unit, gameMap.units[foe[0]][foe[1]], forecast)
+						choices[x] = [pos, forecast, foe]
+			#make a choice
+			x = choices.keys().sort().pop(0)
+			#move unit to pos and do attack.
+			map.units[pos[0]][pos[1]] = map.units[spot[0]][spot[1]]
+			map.units[spot[0]][spot[1]] = None
+			forecast.play(unit, choices[2])
+		else:
+			#if no unit can be reached.
+			foes = []
+			for row in range(len(gameMap.grid)):
+				for column in range(len(row)):
+					if gameMap.units[row][column] in gameMap.playerArmy.units:
+						foes.append([row, column])
+
 
 #Runs everythin. 
 if __name__ == "__main__":

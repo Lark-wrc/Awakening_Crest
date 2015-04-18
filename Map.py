@@ -8,7 +8,8 @@ class Map(object):
 		jsonObj = json.load(open(file_map,'r'))
 		#self.player_file = pickle.load(open(file_player,'r'))
 		self.xDim = jsonObj['X_Dim']
-		self.yDim = jsonObj['Y_Dim']		
+		self.yDim = jsonObj['Y_Dim']
+		
 		
 		self.grid = self.parse(jsonObj['Legend'], jsonObj['Map'])
 		assert(None not in self.grid)
@@ -16,7 +17,8 @@ class Map(object):
 		
 		self.playerArmy	= None
 		self.otherArmies = []
-		self.army_setup(file_player, file_data)		
+		self.army_setup(file_player, file_data)
+		
 		
 		self.events = self.resolveEvents(file_data)
 		
@@ -38,7 +40,9 @@ class Map(object):
 		for target in squares:
 			if type == 'unit' and isinstance(self.units[target[0]][target[1]], Unit) and tuple(location) != target:
 				return True
-	
+			elif type == 'players' and isinstance(self.units[target[0]][target[1]], Unit) and tuple(location) != target \
+				and self.units[target[0]][target[1]] in self.playerArmy.units:
+				return True
 	#Remember, proximity doesn't mean
 	#you can reach that square, it means that you can get within range of it, with specified range.
 	#list of things it can get in range of ie. distance + range
@@ -51,7 +55,10 @@ class Map(object):
 		inRange = []
 		#use A* to check with movement costs of terrain
 		for target in squares:
-			if type == 'unit' and isinstance(self.units[target[0]][target[1]], Unit):
+			if type == 'unit' and isinstance(self.units[target[0]][target[1]], Unit) and tuple(location) != target:
+				inRange.append(target)
+			elif type == 'players' and isinstance(self.units[target[0]][target[1]], Unit) and tuple(location) != target \
+				and self.units[target[0]][target[1]] in self.playerArmy.units:
 				inRange.append(target)
 		print inRange
 		return inRange
