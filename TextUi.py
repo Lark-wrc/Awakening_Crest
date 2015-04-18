@@ -239,20 +239,33 @@ def playerTurn(army):
 #Checks all units that are in proximity to AI's unit and scores attacking from different
 #squares that are adjacent to the target
 def AITurn(army):
+
+	resetTempStats(army.units)
+	deGray(army.units)
+	
 	#Scoring
 	damageScore = 0
 	defenseScore = 0
-	#Combat calc object
-	Forcast predict = new Forecast()
+	
 	#Holds list of priority queues, 1 for each unit
 	scoredMoves = []
+	unitLocations = []
+	for row in range(len(gameMap.grid)):
+		for column in range(len(row)):
+			if gameMap.units[row][column] is in army.units:
+				unitLocations.append([row, column])
+			
 	
 	#for each of the AI's units
 	#need to edit to take units location from map given a unit
-	for unit in army.units:
-		rankedMoves = PriorityQueue()
+	for unit in unitLocations:
+		
+		
+		unitMoves = PriorityQueue()
+		if gameMap.in_prox(gameMap.units(unit), unit, "unit", gameMap.units(unit).ask_stat(mob))
+		
 		#for each of the enemy units in proximity to AI unit
-		for enemyUnit in gameMap.proximity(unit, unit location, enemyUnit, unit.personal.range):
+		for enemyUnit in gameMap.proximity(unit, t location, enemyUnit, unit.personal.range):
 			#for movable adjacent squares next to enemyUnit
 			for attackPos in gameMap.squares(x enemyUnit location, y enemyUnit location, unit.personal.range):
 				situationScore = 0
@@ -260,13 +273,16 @@ def AITurn(army):
 				#ie Dealing 100% damage of the enemy health will add 100% of attackScore to 
 				#this situations score and taking 45% damage will add 45% of defenseScore to situationScore
 				
+				battleForecast = Forecast.calc(unit, enemyUnit, gameMap.grid[][],gameMap.grid[][])
 				
-				
-				#situations for each unit are stored in a priority queue with a score as priority and a list of itself, location, enemy unit
+				#situations for each unit are stored in a priority queue with a score as priority and a tuple of itself, attack location, enemy unit
 				#add attack instruction with score as parameter
-				rankedMoves.put(situationScore,[unit, attackPos, enemyUnit])
-				
+				unitMoves.put(situationScore,[unit, attackPos, enemyUnit])
+		#add priority queue of undividual unit's moves to scoredMoves
+		scoredMoves.append(unitMoves)		
+	
 	#Pull best move from each units priority queue in scoredMoves
+	#Returns unit, attack position, enemey unit
 	for bestMove in scoredMoves:
 		
 				
