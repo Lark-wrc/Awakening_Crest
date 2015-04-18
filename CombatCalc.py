@@ -101,9 +101,11 @@ def score(self, atkUnit, defUnit, prediction, persona):
 	#calc dmg dealt based of total (damage possible/expected damage done)
 	totalScore += persona['OneDamage']*((prediction.oneStats[0]/atkUnit.properties[0])*100)
 	#dmg taken 
+	totalScore -= persona['TwoDamage']*((prediction.twoStats[0]/defUnit.properties[0])*100)
 	#OneHit 
 	totalScore += persona['OneHit']*prediction.oneStats[1]
 	#TwoHit
+	totalScore -= persona['TwoHit']*prediction.twoStats[1]
 	#attaking units crit
 	totalScore += persona['OneCrit']*prediction.oneStats[2]
 
