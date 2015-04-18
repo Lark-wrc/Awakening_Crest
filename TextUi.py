@@ -56,7 +56,7 @@ the turn order.
 """
 def moveAction(map):
 	cursor = (-1, -1) #basically the most recent accesed location. for internal use.
-	a = raw_input("Type an action, ? for help: ")
+	a = raw_input("Type a command, ? for help: ")
 
 	#Top level for, you can choose to end your turn or interact with a unit.
 	while a != 'end turn':
@@ -72,7 +72,7 @@ def moveAction(map):
 				cat = b[0]
 				b[0] = int(b[1])-1
 				b[1] = int(cat)-1
-				print b[0],b[1]
+				#print b[0],b[1]
 
 				#BUNCHA checkin for target validity. specifically, if it's on the map, if it's a unit, under
 				#your control, and hasn't already moved.
@@ -89,19 +89,21 @@ def moveAction(map):
 						c[1] = int(cat)-1
 
 						#target validity checking...
-						if c[0] < map.xDim and c[1] < map.yDim and map.units[c[0]][c[1]] is None \
+						if c[0] < map.xDim and c[1] < map.yDim \
 						and map.is_reachable(map.units[b[0]][b[1]], cursor, (c[0], c[1])):
 							cursor = (c[0],c[1])
-							map.units[c[0]][c[1]] = map.units[b[0]][b[1]]
-							map.units[b[0]][b[1]] = None
+							if cursor != tuple([b[0],b[1]]):
+								map.units[c[0]][c[1]] = map.units[b[0]][b[1]]
+								map.units[b[0]][b[1]] = None
 							os.system('cls' if os.name == 'nt' else 'clear')
 							printMap()
 
 							#This returns 1 if back is sent from the action menus. Which will continue this
 							#loop. If 0 is sent, it's actually reccuring up the stack with the end turn command.
 							if actionAction(map,cursor, map.units[c[0]][c[1]]):
-								map.units[b[0]][b[1]] = map.units[c[0]][c[1]]
-								map.units[c[0]][c[1]] = None
+								if cursor != tuple([b[0],b[1]]):
+									map.units[b[0]][b[1]] = map.units[c[0]][c[1]]
+									map.units[c[0]][c[1]] = None
 								cursor = (b[0],b[1])
 								os.system('cls' if os.name == 'nt' else 'clear')
 								printMap()
@@ -118,7 +120,7 @@ def moveAction(map):
 		else:
 			print "No nonsense, please."
 		printMap()
-		a = raw_input("Type an action, ? for help: ")
+		a = raw_input("Type a command, ? for help: ")
 
 
 
@@ -133,13 +135,13 @@ fyeah recursion!!!
 def actionAction(map,cursor, unit):
 	can_attack = False
 	can_invent = True
-	if map.in_prox(unit, cursor, 'unit', unit.currRange):
+	if map.in_prox(cursor, 'unit', unit.currRange):
 		can_attack = True
-	a = raw_input("Type an action, ? for help: ")
+	a = raw_input("Type a unit action, ? for help: ")
 	while a != 'wait':
 		if a == '?':
 			print "select an action."
-			if map.in_prox(unit, cursor, 'unit', unit.currRange):
+			if map.in_prox(cursor, 'unit', unit.currRange):
 				can_attack = True
 			print "you can: attack: " + repr(can_attack) + ' inventory: ' + repr(can_invent) + " Status: True wait: True."
 		elif a == 'attack':
@@ -154,7 +156,7 @@ def actionAction(map,cursor, unit):
 				return 1
 		else:
 			print "Invalid command"
-		a = raw_input("Type an action, ? for help: ")
+		a = raw_input("Type an unit action, ? for help: ")
 	unit.grey = True
 	moveAction(map)
 	return 0
@@ -168,7 +170,7 @@ def attackAction(map, cursor, unit):
 		cat = a[0]
 		a[0] = int(a[1])-1
 		a[1] = int(cat)-1
-		if (a[0],a[1]) in map.proximity(unit, a, 'unit', range):
+		if (a[0],a[1]) in map.proximity(cursor, 'unit', range):
 			if map.units[a[0]][a[1]] != None and map.units[a[0]][a[1]] not in map.playerArmy.units:
 				forecast = CombatCalc.calc(unit, map.units[a[0]][a[1]], map.grid[cursor[0]][cursor[1]], map.grid[a[0]][a[1]])
 				print forecast.readout()
@@ -233,7 +235,7 @@ def playerTurn(army):
 	resetTempStats(army.units)
 	deGray(army.units)
 	moveAction(gameMap)
-	print 'done'
+	print 'Player turn done'
 	
 #AI turn
 #Checks all units that are in proximity to AI's unit and scores attacking from different
@@ -249,7 +251,7 @@ def AITurn(army):
 
 	unitLocations = []
 	for row in range(len(gameMap.grid)):
-		for column in range(len(row)):
+		for column in range(len(gameMap.grid[row])):
 			if gameMap.units[row][column] in army.units:
 				unitLocations.append([row, column])
 			
@@ -259,22 +261,26 @@ def AITurn(army):
 	for spot in unitLocations:
 		unit = gameMap.units[spot[0]][spot[1]]
 		choices = {}
-		if gameMap.in_prox(unit, spot, "players", unit.ask_stat('mov')):
-			for foe in gameMap.proximity(unit, spot, 'players', unit.ask_stat('mov')):
-				print foe
+		if gameMap.in_prox(spot, "players", unit.ask_stat('mov')):
+			for foe in gameMap.proximity(spot, 'players', unit.ask_stat('mov')):
 				#to get all attack locations for the foe.
 				for pos in gameMap.squares(foe[0], foe[1], unit.equipped.range):
-					if gameMap.is_reachable(unit,spot,pos):
-						forecast = CombatCalc.calc(unit, gameMap.units[foe[0]][foe[1]], map.grid[pos[0]][pos[1]], \
-							map.grid[foe[0]][foe[1]])
-						x = CombatCalc.score(unit, gameMap.units[foe[0]][foe[1]], forecast)
+					if gameMap.is_reachable(unit, tuple(spot), tuple(pos)):
+						forecast = CombatCalc.calc(unit, gameMap.units[foe[0]][foe[1]], gameMap.grid[pos[0]][pos[1]], \
+							gameMap.grid[foe[0]][foe[1]])
+						x = CombatCalc.score(unit, gameMap.units[foe[0]][foe[1]], forecast, gameMap.persona)
 						choices[x] = [pos, forecast, foe]
 			#make a choice
-			x = choices.keys().sort().pop(0)
+			#print choices
+			x = choices.keys()
+			x.sort()
+			x = x.pop(-1)
 			#move unit to pos and do attack.
-			map.units[pos[0]][pos[1]] = map.units[spot[0]][spot[1]]
-			map.units[spot[0]][spot[1]] = None
-			forecast.play(unit, choices[2])
+			if choices[x][0][0] != spot[0] or choices[x][0][1] != spot[1]:
+				gameMap.units[choices[x][0][0]][choices[x][0][1]] = gameMap.units[spot[0]][spot[1]]
+				gameMap.units[spot[0]][spot[1]] = None
+			choices[x][1].play(unit, gameMap.units[choices[x][2][0]][choices[x][2][1]])
+			raw_input()
 		else:
 			#if no unit can be reached.
 			foes = []
@@ -282,6 +288,7 @@ def AITurn(army):
 				for column in range(len(row)):
 					if gameMap.units[row][column] in gameMap.playerArmy.units:
 						foes.append([row, column])
+	printMap()
 
 
 #Runs everythin. 

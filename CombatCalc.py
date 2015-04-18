@@ -27,7 +27,7 @@ class Forecast(object):
 						dam = x[0]
 					unit2.currentHp -= dam
 				print unit1.personal.name, "Hit: ", repr(bhit), 'Crit: ', repr(bcrit), 'for Damage: ', repr(dam)
-				print unit1.currentHp, unit2.currentHp
+				print unit1.personal.name, unit1.currentHp, unit2.personal.name, unit2.currentHp
 			elif x[3] is unit2:
 				bhit = False
 				bcrit = False
@@ -48,7 +48,7 @@ class Forecast(object):
 						dam = x[0]
 					unit1.currentHp -= dam
 				print unit2.personal.name, "Hit: ", repr(bhit), 'Crit: ', repr(bcrit), 'for Damage: ', repr(dam)
-				print unit1.currentHp, unit2.currentHp
+				print unit1.personal.name, unit1.currentHp, unit2.personal.name, unit2.currentHp
 			else:
 				print "shine, baka"
 	def readout(self):
@@ -94,28 +94,20 @@ def calc(unit1, unit2, terrain1, terrain2):
 	return ret
 	
 #calc score of a combat situation given 2 units, a forecast, and an ai persona containing weights	
-def score(self, atkUnit, defUnit, prediction, persona):
+def score(atkUnit, defUnit, prediction, persona):
 	#personality is dict with OneDamage, OneHit, OneCrit, TwoDamage, TwoHit
 	totalScore = 0
 	
 	#calc dmg dealt based of total (damage possible/expected damage done)
-	totalScore += persona['OneDamage']*((prediction.oneStats[0]/atkUnit.properties[0])*100)
+	totalScore += persona['OneDamage']*int((float(prediction.oneStats[0])/float(atkUnit.properties()[0]))*100)
 	#dmg taken 
-	totalScore -= persona['TwoDamage']*((prediction.twoStats[0]/defUnit.properties[0])*100)
+	totalScore -= persona['TwoDamage']*int((float(prediction.twoStats[0])/float(defUnit.properties()[0]))*100)
 	#OneHit 
 	totalScore += persona['OneHit']*prediction.oneStats[1]
 	#TwoHit
 	totalScore -= persona['TwoHit']*prediction.twoStats[1]
 	#attaking units crit
 	totalScore += persona['OneCrit']*prediction.oneStats[2]
-
+	#print totalScore, 'Score'
 	return totalScore
-	
-	
-	
-	
 
-	
-	
-	
-	

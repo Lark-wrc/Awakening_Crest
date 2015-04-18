@@ -25,8 +25,13 @@ Vaike.inventory.put(Axe(*x["Bronze Axe"]))
 Vaike.equip(0)
 Stahl.inventory.put(Lance(*x["Bronze Lance"]))
 Stahl.equip(0)
-
+Vaike.personal.movement = 5
 save = Army([Chrom], 'Natsume', Inventory(-1))
-pickle.dump(save, open('first_army.pckl','w'))
-save = Army([Vaike, Stahl], 'Natsume', Inventory(-1))
+
+#pickle.dump(save, open('first_army.pckl','w'))
+#save = Army([Vaike, Stahl], 'Natsume', Inventory(-1))
+#pickle.dump(save, open('second_army.pckl','w'))
+
 pickle.dump(save, open('second_army.pckl','w'))
+save = Army([Vaike, Stahl], 'Natsume', Inventory(-1))
+pickle.dump(save, open('first_army.pckl','w'))
