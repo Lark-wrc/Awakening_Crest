@@ -92,3 +92,28 @@ def calc(unit1, unit2, terrain1, terrain2):
 	ret.twoStats = twoStats
 	ret.stack = stack
 	return ret
+	
+#calc score of a combat situation given 2 units, a forecast, and an ai persona containing weights	
+def score(self, atkUnit, defUnit, prediction, persona):
+	#personality is dict with OneDamage, OneHit, OneCrit, TwoDamage, TwoHit
+	totalScore = 0
+	
+	#calc dmg dealt based of total (damage possible/expected damage done)
+	totalScore += persona['OneDamage']*((prediction.oneStats[0]/atkUnit.properties[0])*100)
+	#dmg taken 
+	#OneHit 
+	totalScore += persona['OneHit']*prediction.oneStats[1]
+	#TwoHit
+	#attaking units crit
+	totalScore += persona['OneCrit']*prediction.oneStats[2]
+
+	return totalScore
+	
+	
+	
+	
+
+	
+	
+	
+	
