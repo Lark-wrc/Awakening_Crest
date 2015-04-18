@@ -8,8 +8,7 @@ class Map(object):
 		jsonObj = json.load(open(file_map,'r'))
 		#self.player_file = pickle.load(open(file_player,'r'))
 		self.xDim = jsonObj['X_Dim']
-		self.yDim = jsonObj['Y_Dim']
-		
+		self.yDim = jsonObj['Y_Dim']		
 		
 		self.grid = self.parse(jsonObj['Legend'], jsonObj['Map'])
 		assert(None not in self.grid)
@@ -17,8 +16,7 @@ class Map(object):
 		
 		self.playerArmy	= None
 		self.otherArmies = []
-		self.army_setup(file_player, file_data)
-		
+		self.army_setup(file_player, file_data)		
 		
 		self.events = self.resolveEvents(file_data)
 		
@@ -40,6 +38,7 @@ class Map(object):
 		for target in squares:
 			if type == 'unit' and isinstance(self.units[target[0]][target[1]], Unit) and tuple(location) != target:
 				return True
+	
 	#Remember, proximity doesn't mean
 	#you can reach that square, it means that you can get within range of it, with specified range.
 	#list of things it can get in range of ie. distance + range
@@ -96,7 +95,7 @@ class Map(object):
 		#use A* to check with movement costs of terrain
 		for target in squares:
 			path, cost = self.get_best_path(source, location, target)
-			if cost<=unitRange:
+			if cost<=unitRange and self.units[target[0]][target[1]] == None:
 				inRange.append(target)
 		return inRange
 		
@@ -104,7 +103,7 @@ class Map(object):
 	#can thing in source move to ordered pair end in one move
 	def is_reachable(self, source, start, end):
 		path, range = self.get_best_path(source, start, end)
-		if range[end] <= source.ask_stat('mov'):
+		if range[end] <= source.ask_stat('mov') and self.units[end[0]][end[1]] == None:
 			return 1
 		else:
 			return 0
