@@ -1,4 +1,9 @@
 class Inventory(object):
+	"""Author: Bill Clark
+		Purpose: Technically used, but basically not implemented. Manages a collection of items.
+				Very little inventory management exists in this implementation of the game,
+				so the effect of the this class is minimal.
+	"""
 	def __init__(self, size):
 		self.size = size
 		self.container = []

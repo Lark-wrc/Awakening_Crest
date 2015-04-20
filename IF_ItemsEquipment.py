@@ -1,3 +1,10 @@
+"""Author: Bill Clark
+		Purpose: A large amount of classes, all inheriting from each other. All weapons are items, each weapon type
+				is a weapon... Making proper docstrings is pretty much irrelevant. All the classes are basically
+				a data storage class. Most of their methods are for unimplemented advanced weapons.
+	"""
+
+
 #A Interface for all items in the game. Every item inherits from here.\
 #Class Written by Bill Clark
 class Item(object):

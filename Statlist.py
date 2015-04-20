@@ -1,7 +1,7 @@
-#Class that holds stats for a unit in specified format
-#Written by Greg Suner
 class Statlist(object):
-	#__init__ stats 
+	"""Author: Greg Suner
+		Purpose: Container class that holds a units stats. Used for encapsulation.
+	"""
 	def __init__(self, hp, str, magic, skill, speed, luck, defense, res):
 			self.hp= hp
 			self.str = str

@@ -10,6 +10,9 @@ turnStack = []
 
 #Prints the map. Does this in a grid shape, 3x1 characters. uses the gameMap grid and units to process.
 def printMap():
+	"""Author: Bill Clark
+		Purpose: Pretty prints out the game map.
+	"""
 	for i in range(gameMap.yDim+1):
 		if i == 0:
 			# column for row numbers
@@ -29,32 +32,41 @@ def printMap():
 				print(" {0:2d} ".format(colu.personal.iconID)),
 		print("")
 
-#shifts an array one around. 
 def shift(seq):
+	"""Author: Bill Clark
+		Purpose: Shifts an array around.
+	"""
 	return seq[1:]+seq[:1]
 
 
-#called at the start of a turn for a team, maxes a unit's temporary stats completely zero out.
 def resetTempStats(units):
+	"""Author: Bill Clark
+		Purpose: Resets the temporary stats of all units in the given list.
+	"""
 	for x in units:
 		x.resetTemps()
 
 #removes grey status from all units in an army. Used to start a new turn.
 def deGray(units):
+	"""Author: Bill Clark
+		Purpose: Reactivates all units in the given list.
+	"""
 	for x in units:
 		#print x.personal.name, x.grey
 		x.grey = False
 
-""" This covers the selection of a unit by a player, selecting it's target location and moving it there.
-First of all, the stupid ducking grid likes its coordinates in y,x format. in order to be human readable, 
-they are swapped at the commented section from the x, y given by the player. Not salty. 
-Most of the commands in this method have no alternatives. You have one thing to do, select a unit, and if 
-you can't, your done. So it's mostly a bunch of while loops that make sure you actually put in a real input.
-As far as actual commands, it goes "select", "x,y", "x,y". Say you want to move, move what, to where. If at
-anytime back is typed, it moves up a level. Also to note, "end turn" is valid at the top level, to move
-the turn order. 
-"""
+
 def moveAction(map):
+	""" Author: Bill Clark
+	Purpose: This covers the selection of a unit by a player, selecting it's target location and moving it there.
+	First of all, the stupid ducking grid likes its coordinates in y,x format. in order to be human readable,
+	they are swapped at the commented section from the x, y given by the player. Not salty.
+	Most of the commands in this method have no alternatives. You have one thing to do, select a unit, and if
+	you can't, your done. So it's mostly a bunch of while loops that make sure you actually put in a real input.
+	As far as actual commands, it goes "select", "x,y", "x,y". Say you want to move, move what, to where. If at
+	anytime back is typed, it moves up a level. Also to note, "end turn" is valid at the top level, to move
+	the turn order.
+	"""
 	cursor = (-1, -1) #basically the most recent accesed location. for internal use.
 	a = raw_input("Type a command, ? for help: ")
 
@@ -124,15 +136,17 @@ def moveAction(map):
 
 
 
-""" This is the action selection chain of processing. There are more options in this area than the movement.
-if a unit that isn't friendly is nearby, attack is enabled. else, you may only call up the inventory or wait.
-in additon, as this is a shit ui, you can see a unit's status printout from a command here.
-This structure is almost identical to movement action. However, rather than a pile of checks, this just
-calls submethods that do stuff. 
-When wait is entered, the unit is disabled for the rest of the turn, and a new call to moveaction is made.
-fyeah recursion!!!
-"""
+
 def actionAction(map,cursor, unit):
+	""" Author: Bill Clark
+	Purpose: This is the action selection chain of processing. There are more options in this area than the movement.
+	if a unit that isn't friendly is nearby, attack is enabled. else, you may only call up the inventory or wait.
+	in additon, as this is a bare bones ui, you can see a unit's status printout from a command here.
+	This structure is almost identical to movement action. However, rather than a pile of checks, this just
+	calls submethods that do stuff.
+	When wait is entered, the unit is disabled for the rest of the turn, and a new call to moveaction is made.
+	Booyah recursion!!!
+	"""
 	can_attack = False
 	can_invent = True
 	if map.in_prox(cursor, 'unit', unit.currRange):
@@ -162,6 +176,12 @@ def actionAction(map,cursor, unit):
 	return 0
 
 def attackAction(map, cursor, unit):
+	"""Author: Bill Clark
+	Purpose: Lets a player attack an enemy unit. First a location is specificed, then, if that checks out,
+			a forecast calculated. The user may then choose to complete the attack, or cancel and back out.
+			The forecast, it's calculations, and the play out of that scenario are done by CombatCalc.
+			Of note, after a unit attacks it may not do another action this turn.
+	"""
 	range = unit.currRange
 	a = raw_input("Where do you want to attack?: ")
 	while a != 'back':
@@ -188,6 +208,10 @@ def attackAction(map, cursor, unit):
 
 #Displays the inventory. Same while loop structure as movement action. commands consist of back or equip.
 def inventoryAction(unit):
+	"""Author: Bill Clark
+	Purpose: Lets the user interface the inventory. Barely functions, no input checking. Lets a unit equip
+	        a weapon it has at the moment. Best not poked at. Weapons come pre equipped, so this isn't used atm.
+	"""
 	a = ''
 	while a != 'back':
 		os.system('cls' if os.name == 'nt' else 'clear')
@@ -214,12 +238,15 @@ def inventoryAction(unit):
 		else:
 			print "Invalid."
 
-#There be dragons here.            
 def preBattle_Begin():
+	"""There be dragons here."""
 	pass
 
 #The method that organizes the player and AI functions.
 def battle_Begin():
+	"""Author: Bill Clark
+	Purpose: Starts the battle cycle. Player turn, Ai turn, etc.
+	"""
 	global turnStack
 	turnStack.append(gameMap.playerArmy)
 	turnStack.extend(gameMap.otherArmies)
@@ -232,6 +259,10 @@ def battle_Begin():
 
 #Does the players actions sequentally. Also manages turn based book keeping.
 def playerTurn(army):
+	"""Author: Bill Clark
+	Purpose: Does the functions on a player's turn. Would have more detail if more functions were implemented.
+			Right now,
+	"""
 	resetTempStats(army.units)
 	deGray(army.units)
 	moveAction(gameMap)
@@ -241,57 +272,59 @@ def playerTurn(army):
 #Checks all units that are in proximity to AI's unit and scores attacking from different
 #squares that are adjacent to the target
 def AITurn(army):
+	"""Author: Bill Clark and Greg Suner,
+	Purpose: The computer controlled units are given actions that match the AI's priorities.
+	"""
 
+	#Bookkeeping methods.
 	resetTempStats(army.units)
 	deGray(army.units)
-	
-	#Scoring
-	damageScore = 0
-	defenseScore = 0
 
+	#Generates the locations of all units controlled by the Ai.
 	unitLocations = []
 	for row in range(len(gameMap.grid)):
 		for column in range(len(gameMap.grid[row])):
 			if gameMap.units[row][column] in army.units:
 				unitLocations.append([row, column])
-			
-	
-	#for each of the AI's units
-	#need to edit to take units location from map given a unit
+
+	#for each of the AI's units, looping through their locations.
 	for spot in unitLocations:
 		unit = gameMap.units[spot[0]][spot[1]]
 		choices = {}
-		if gameMap.in_prox(spot, "players", unit.ask_stat('mov')):
+		if gameMap.in_prox(spot, "players", unit.ask_stat('mov')):  #If there is an enemy in range.
+
+			#For each unit that this unit can attack.
 			for foe in gameMap.proximity(spot, 'players', unit.ask_stat('mov')):
-				#to get all attack locations for the foe.
+
+				#For each square that, using the range of the current weapon, an attack could take place from.
 				for pos in gameMap.squares(foe[0], foe[1], unit.equipped.range):
-					if gameMap.is_reachable(unit, tuple(spot), tuple(pos)):
+					if gameMap.is_reachable(unit, tuple(spot), tuple(pos)):  #If it's actually accessable.
+						#Generate a forecast, then a heuristic about it. Then store it away to be chosen later.
 						forecast = CombatCalc.calc(unit, gameMap.units[foe[0]][foe[1]], gameMap.grid[pos[0]][pos[1]], \
 							gameMap.grid[foe[0]][foe[1]])
 						x = CombatCalc.score(unit, gameMap.units[foe[0]][foe[1]], forecast, gameMap.persona)
 						choices[x] = [pos, forecast, foe]
 			#make a choice
-			#print choices
+			if test: print choices
 			x = choices.keys()
 			x.sort()
 			x = x.pop(-1)
-			#move unit to pos and do attack.
+
+			#move unit to the best postion to attack from and do the attack forecast.
 			if choices[x][0][0] != spot[0] or choices[x][0][1] != spot[1]:
 				gameMap.units[choices[x][0][0]][choices[x][0][1]] = gameMap.units[spot[0]][spot[1]]
 				gameMap.units[spot[0]][spot[1]] = None
 			choices[x][1].play(unit, gameMap.units[choices[x][2][0]][choices[x][2][1]])
-			raw_input()
+			raw_input()  #Pause to let the user read the results.
+
+		#If a unit isn't in range of this unit, it won't make an action. This is behavior from the source game.
 		else:
 			#if no unit can be reached.
-			foes = []
-			for row in range(len(gameMap.grid)):
-				for column in range(len(row)):
-					if gameMap.units[row][column] in gameMap.playerArmy.units:
-						foes.append([row, column])
+			pass
 	printMap()
 
 
-#Runs everythin. 
+"""Runs the program if the UI is ran. Loads specific example files, because we have no others."""
 if __name__ == "__main__":
 	if len(sys.argv) == 3:
 		print >> sys.stderr, "Invalid number of arguments. Specify Map file, Map data, and player file."

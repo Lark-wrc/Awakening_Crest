@@ -1,8 +1,8 @@
 from Statlist import Statlist
-#An interface for all job types that a unit can have
-#Written by Greg Suner
 class Job:
-	#__init__ class properties
+	"""Author: Greg Suner
+	Purpose: Stores information about a class that unit may be a member of.
+	"""
 	def __init__(self,maxClassStat,currentLv,exp,promote,lvCap,promoteLv, promotions, name, profics):
 		self.maxClassStat = Statlist(*maxClassStat)
 		self.currentLv = currentLv

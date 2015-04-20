@@ -2,8 +2,19 @@ import json
 import pickle
 from Unit import Unit
 from Terrain import Terrain
+test = False
+
+
 class Map(object):
+	"""Author: Greg Suner and Bill Clark, method authors noted.
+		Purpose: Holds most of the information for a game level. The map, AI information, armies... and so on.
+	"""
+
 	def __init__(self, file_map, file_data, file_player):
+		"""Author: Bill Clark
+		Purpose: Constructor. Uses three json files to upload information. Doles out some information loading
+				to the map parse and army setup methods.
+		"""
 		jsonObj = json.load(open(file_map,'r'))
 		#self.player_file = pickle.load(open(file_player,'r'))
 		self.xDim = jsonObj['X_Dim']
@@ -19,44 +30,47 @@ class Map(object):
 		self.army_setup(file_player, file_data)
 
 		self.events = self.resolveEvents(file_data)
-	
-	#Find out if something (type) is accessible from where it is. This includes range, so it's always
-	#one larger than reachable. possible refactoring to show that. Basically, this is for is X in my attack
-	#range?
+
 	def in_prox(self, source, type, range):
+		"""Author: Bill Clark, Greg Suner's reachable as a base.
+		Purpose: This method checks if a particular type of thing is within range of a unit. This includes
+				if the target is within range beyond movement area. It returns true at the first instance of
+				something in range.
+		"""
 		unitRange = range
 		xDim = source[0]
 		yDim = source[1]
-		squares = self.squares(xDim,yDim,unitRange)
+		squares = self.squares(xDim,yDim,unitRange+source.equipped.range)
 		for target in squares:
 			if type == 'unit' and isinstance(self.units[target[0]][target[1]], Unit) and tuple(source) != target:
 				return True
 			elif type == 'players' and isinstance(self.units[target[0]][target[1]], Unit) and tuple(source) != target \
 				and self.units[target[0]][target[1]] in self.playerArmy.units:
 				return True
-	#Remember, proximity doesn't mean
-	#you can reach that square, it means that you can get within range of it, with specified range.
-	#list of things it can get in range of ie. distance + range
+
 	def proximity(self, source, type, range):
+		"""Author: Bill Clark, Greg Suner's reachable as base.
+		Purpose: Functions much like in_prox, this method returns the coordinates of the targets found.
+		"""
 		unitRange = range
 		xDim = source[0]
 		yDim = source[1]
-		#print location
 		squares = self.squares(xDim,yDim,unitRange)
-		#print squares
 		inRange = []
-		#use A* to check with movement costs of terrain
 		for target in squares:
 			if type == 'unit' and isinstance(self.units[target[0]][target[1]], Unit) and tuple(source) != target:
 				inRange.append(target)
 			elif type == 'players' and isinstance(self.units[target[0]][target[1]], Unit) and tuple(source) != target \
 				and self.units[target[0]][target[1]] in self.playerArmy.units:
 				inRange.append(target)
-		#print inRange
+		if test: print inRange
 		return inRange
 
-	#Bill's diamond generation method.
 	def squares(self, currX, currY, mov):
+		"""Author: Bill Clark
+		Purpose: This method generates a list of all the coordinates, in a perfect world, a unit can range with it's
+				movement speed. It returns them in a list. Does not return values outside the grid.
+		"""
 		ret = []
 		up = True
 		ys = -1 #y adjustment from the baseline x row.
@@ -81,11 +95,13 @@ class Map(object):
 					ret.append((currX+col, -row+currY))
 			if currX+col >= 0 and currX+col < self.xDim and currY < self.yDim and currY >= 0:
 				ret.append((currX+col, currY))
-		#print ret
+		if test: print ret
 		return ret
 
-	#Returns list of squares in range of source
 	def reachable(self, source,location, end):
+		"""Author: Greg Suner
+		Purpose: Returns a list of all locations a unit can move to.
+		"""
 		unitRange = source.ask_stat('mov')
 		xDim = location[0]
 		yDim = location[1]
@@ -98,9 +114,11 @@ class Map(object):
 				inRange.append(target)
 		return inRange.append(tuple(location))
 		
-		
-	#can thing in source move to ordered pair end in one move
+
 	def is_reachable(self, source, start, end):
+		"""Author: Greg Suner
+		Purpose: Given a target location, return if the specified unit can reach it from it's starting point.
+		"""
 		path, range = self.get_best_path(source, start, end)
 		if end[0] == start[0] and end[1] == start[1]:
 			return 1
@@ -113,6 +131,9 @@ class Map(object):
 #example from online
 	
 	def get_best_path(self, source, current, goal):
+		"""Author: Modifications of example for our situation, Greg Suner., Data Structure redesign for our needs, Bill Clark.
+		Purpose: The A* heuristic. Returns the path it took and the cost to there.
+		"""
 		frontier = {}
 		frontier[current] = 0
 		came_from = {}
@@ -137,14 +158,18 @@ class Map(object):
 					came_from[next] = current
 		return came_from, cost_so_far
 
-	#manhattan heuristic - total of difference of x and y	
 	def heuristic(self, goal, current):
+		"""Author: Greg Suner
+		Purpose: Manhattan heuristic.
+		"""
 		x = abs(goal[0]-current[0])
 		y = abs(goal[1]-current[1])
 		return x+y
-		
-	#pull cost from terrain	
+
 	def cost(self, next):
+		"""Author: Bill Clark
+		Purpose: Returns the cost of a given location.
+		"""
 		x = next[0]
 		y = next[1]
 		return self.grid[x][y].cost
@@ -153,6 +178,10 @@ class Map(object):
 	#Parses the grid. Using the legend provided, it checks the map symbols against the terrain type
 	#file. it place the correct type of terrain in that square, and moves on.
 	def parse(self, legend, map):
+		"""Author: Bill Clark
+		Purpose: Using the legend from the map file, as well as the map array, create a double array of
+				terrain pieces, otherwise, the game map.
+		"""
 		grid = [[None for i in range(0,self.xDim)] for i in range(0,self.yDim)]
 		terrains = json.load(open('Terrain_Types.json','r'))
 		for x in range(0, self.xDim):
@@ -164,6 +193,10 @@ class Map(object):
 		
 	#Loads all information based on the map data file, all armies, and deploys inital units.
 	def army_setup(self, player, data):
+		"""Author: Bill Clark
+		Purpose: Loads the armies in the data file and places them in the starting positions.
+				Also loads the other data file information for the whole map.
+		"""
 		#declarations from the map's associated data file.
 		data_file = json.load(open(data, 'r'))
 		self.playerArmy = pickle.load(open(player))
@@ -185,5 +218,7 @@ class Map(object):
 				self.units[y[0]-1][y[1]-1] = self.otherArmies[x-1].units[i]
 		
 	def resolveEvents(self, file):
+		"""Author: Bill Clark
+		Purpose: Unused.
+		"""
 		return []
-	
