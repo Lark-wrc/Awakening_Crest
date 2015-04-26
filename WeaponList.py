@@ -1,10 +1,12 @@
-#Class that holds proficiencies for each weapon as ints
-#Written by Greg Suner
+
 class Weaponlist(object):
-	
-	#__init__ WeaponList properties
+	"""Author: Greg Suner
+		Purpose: Container class that holds a units experience with all weapons.
+	"""
+
 	def __init__(self, sword, lance, axe, bow, anima, dark, light, staff):
-		
+		#constructor
+
 		self.sword = sword
 		self.lance = lance
 		self.axe = axe

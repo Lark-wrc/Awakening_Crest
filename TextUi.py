@@ -7,6 +7,7 @@ import CombatCalc
 #The game map. 
 gameMap = None
 turnStack = []
+test = False
 
 #Prints the map. Does this in a grid shape, 3x1 characters. uses the gameMap grid and units to process.
 def printMap():
@@ -172,6 +173,7 @@ def actionAction(map,cursor, unit):
 			print "Invalid command"
 		a = raw_input("Type an unit action, ? for help: ")
 	unit.grey = True
+	printMap()
 	moveAction(map)
 	return 0
 
@@ -193,11 +195,15 @@ def attackAction(map, cursor, unit):
 		if (a[0],a[1]) in map.proximity(cursor, 'unit', range):
 			if map.units[a[0]][a[1]] != None and map.units[a[0]][a[1]] not in map.playerArmy.units:
 				forecast = CombatCalc.calc(unit, map.units[a[0]][a[1]], map.grid[cursor[0]][cursor[1]], map.grid[a[0]][a[1]])
-				print forecast.readout()
+				forecast.readout()
 				b = raw_input("Do you want to attack?: ")
 				while b != 'back':
 					if b == 'yes':
 						forecast.play(unit, map.units[a[0]][a[1]])
+						if unit.currentHp <= 0:
+							gameMap.units[cursor[0]][cursor[1]] = None
+						if gameMap.units[a[0]][a[1]].currentHp <= 0:
+							gameMap.units[a[0]][a[1]] = None
 						return 1
 					else:
 						print 'yes or no. come on genius.'
@@ -315,6 +321,10 @@ def AITurn(army):
 				gameMap.units[choices[x][0][0]][choices[x][0][1]] = gameMap.units[spot[0]][spot[1]]
 				gameMap.units[spot[0]][spot[1]] = None
 			choices[x][1].play(unit, gameMap.units[choices[x][2][0]][choices[x][2][1]])
+			if unit.currentHp <= 0:
+				gameMap.units[spot[0]][spot[1]] = None
+			if gameMap.units[choices[x][2][0]][choices[x][2][1]].currentHp <= 0:
+				gameMap.units[choices[x][2][0]][choices[x][2][1]] = None
 			raw_input()  #Pause to let the user read the results.
 
 		#If a unit isn't in range of this unit, it won't make an action. This is behavior from the source game.

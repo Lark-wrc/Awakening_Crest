@@ -40,7 +40,7 @@ class Map(object):
 		unitRange = range
 		xDim = source[0]
 		yDim = source[1]
-		squares = self.squares(xDim,yDim,unitRange+source.equipped.range)
+		squares = self.squares(xDim,yDim,unitRange+self.units[source[0]][source[1]].equipped.range)
 		for target in squares:
 			if type == 'unit' and isinstance(self.units[target[0]][target[1]], Unit) and tuple(source) != target:
 				return True
