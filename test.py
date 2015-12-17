@@ -1,6 +1,6 @@
 import json
-jobs = json.load(open('Jobs.json'))
-chara = json.load(open('Characters.json'))
+jobs = json.load(open('Data/Jobs.json'))
+chara = json.load(open('Data/Characters.json'))
 from Job import Job
 from Unit import Unit
 from Personal import Personal
@@ -18,7 +18,7 @@ Stahl = Unit(y, x, [0,0,0,0,0,0,0,0], Inventory(5), 20, [])
 import pickle
 from Army import Army
 from IF_ItemsEquipment import *
-x = json.load(open('Weapons.json','r'))
+x = json.load(open('Data/Weapons.json','r'))
 Chrom.inventory.put(Sword(*x["Bronze Sword"]))
 Chrom.equip(0)
 Vaike.inventory.put(Axe(*x["Bronze Axe"]))

@@ -183,7 +183,7 @@ class Map(object):
 				terrain pieces, otherwise, the game map.
 		"""
 		grid = [[None for i in range(0,self.xDim)] for i in range(0,self.yDim)]
-		terrains = json.load(open('Terrain_Types.json','r'))
+		terrains = json.load(open('Data/Terrain_Types.json','r'))
 		for x in range(0, self.xDim):
 			for y in range(0, self.yDim):
 				terra = legend[ map[x][y] ]

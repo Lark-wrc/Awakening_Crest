@@ -341,7 +341,7 @@ if __name__ == "__main__":
 		sys.exit()
 	else:
 		#gameMap = Map(*sys.argv)
-		gameMap = Map('Trial_Map_Map.json','Trial_Map.json','first_army.pckl')
+		gameMap = Map('Data/Trial_Map_Map.json','Data/Trial_Map.json','Save/first_army.pckl')
 		os.system('cls' if os.name == 'nt' else 'clear')
 		printMap()
 		if gameMap.preBattle:

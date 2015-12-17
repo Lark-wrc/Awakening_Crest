@@ -1,6 +1,6 @@
 {
     "Armies": [
-        "second_army.pckl"
+        "Save/second_army.pckl"
     ],
 	"Persona" : {
 		"OneDamage" : 2,
