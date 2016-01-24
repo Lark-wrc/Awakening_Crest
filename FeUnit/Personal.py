@@ -1,5 +1,5 @@
 from Statlist import Statlist
-from Weaponlist import Weaponlist
+from WeaponList import Weaponlist
 #An interface for the personal attributes for each unit
 #Written by Greg Suner
 class Personal(object):

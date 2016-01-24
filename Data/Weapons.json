@@ -9,6 +9,7 @@
         50,
         350,
         "Bronze Sword",
+        "Sword",
         34
     ],
     "Bronze Lance": [
@@ -21,6 +22,7 @@
         50,
 		250,
         "Bronze Lance",
+        "Lance",
         35
     ],
     "Bronze Axe": [
@@ -32,6 +34,7 @@
         0,
         50,
         400,
+        "Bronze Axe",
         "Axe",
         36
     ]

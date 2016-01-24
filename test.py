@@ -1,10 +1,9 @@
 import json
 jobs = json.load(open('Data/Jobs.json'))
 chara = json.load(open('Data/Characters.json'))
-from Job import Job
-from Unit import Unit
-from Personal import Personal
-from Statlist import Statlist
+from FeUnit.Fe_Class import Job
+from FeUnit.Unit import Unit
+from FeUnit.Personal import Personal
 from Inventory import Inventory
 x = Job(*jobs['Lord'])
 y = Personal(*chara["Chrom"])

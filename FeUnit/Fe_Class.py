@@ -1,5 +1,5 @@
 from Statlist import Statlist
-class Job:
+class Fe_Class:
 	"""Author: Greg Suner
 	Purpose: Stores information about a class that unit may be a member of.
 	"""
@@ -13,4 +13,3 @@ class Job:
 		self.promotions = promotions
 		self.name = name
 		self.profics = profics
-	

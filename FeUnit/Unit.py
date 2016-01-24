@@ -8,7 +8,7 @@ class Unit(object):
 		stats from both of these sets and return their totals or modifications. An interface in the literal sense,
 		not the CS sense.
 	"""
-	def __init__(self,personal,job,tempStats,inventory,currentHp,skills):
+	def __init__(self,personal,job,tempStats,inventory,currentHp,skills, position):
 		"""Author: Greg Suner
 		Purpose:Constructor.
 		"""
@@ -21,12 +21,8 @@ class Unit(object):
 		self.grey = False
 		self.currRange = 0
 		self.equipped = None
-	
-	#Returns units statlist
-	def ask_stats(self):
-		"""Unused with the current functionality."""
-		pass
-	
+		self.position = position
+
 	#Takes int to select which specific stat to return
 	#Returns specified stat
 	def ask_stat(self, statId):
@@ -61,12 +57,12 @@ class Unit(object):
 	
 	#Takes a weapon as a parameter to check if this unit can equip it
 	#Returns a boolean
-	def ask_equippible(self, weapon):
+	def canEquip(self, weapon):
 		"""Author: Bill Clark
 		Purpose: Check if this unit may equip a weapon type.
 		Return: Bool
 		"""
-		if weapon.equippible() in self.job.profics:
+		if (weapon.type in self.job.profics) and :
 			return 1
 		else:
 			return 0

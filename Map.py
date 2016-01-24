@@ -1,7 +1,9 @@
 import json
 import pickle
-from Unit import Unit
+
+from FeUnit.Unit import Unit
 from Terrain import Terrain
+
 test = False
 
 
